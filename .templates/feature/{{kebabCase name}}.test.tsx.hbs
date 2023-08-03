@@ -1,0 +1,13 @@
+import { it, expect, describe } from 'vitest';
+import { render, screen } from '@testing-library/react';
+
+import { {{pascalCase name}} } from './{{kebabCase name}}';
+
+describe('{{pascalCase name}}', () => {
+  it('renders foo', () => {
+    render(<{{pascalCase name}} foo="learn" />);
+    // check if component renders text learn
+    const text = screen.getByText(/learn/i);
+    expect(text).toBeVisible();
+  });
+});

@@ -1,0 +1,6 @@
+!.storybook
+dist/
+node_modules/
+.eslintrc.cjs
+stylelint.config.cjs
+tools
