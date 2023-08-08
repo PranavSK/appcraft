@@ -14,7 +14,7 @@ export const Default = {
     min: 0,
     max: 100,
     step: 1,
-    defaultValue: [50],
+    defaultValue: 50,
     orientation: 'horizontal',
   },
 } satisfies Story;
@@ -24,19 +24,8 @@ export const Vertical = {
     min: 0,
     max: 100,
     step: 1,
-    defaultValue: [50],
+    defaultValue: 50,
     orientation: 'vertical',
-    showFill: true,
-  },
-} satisfies Story;
-
-export const Range = {
-  args: {
-    min: 0,
-    max: 100,
-    step: 1,
-    defaultValue: [25, 75],
-    orientation: 'horizontal',
     showFill: true,
   },
 } satisfies Story;
@@ -46,7 +35,7 @@ export const Large = {
     min: 0,
     max: 100,
     step: 1,
-    defaultValue: [50],
+    defaultValue: 50,
     orientation: 'horizontal',
     size: 'lg',
   },
@@ -57,7 +46,7 @@ export const WithMarks = {
     min: 0,
     max: 100,
     step: 1,
-    defaultValue: [50],
+    defaultValue: 50,
     orientation: 'horizontal',
     size: 'lg',
     marks: pipe(

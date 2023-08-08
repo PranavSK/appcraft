@@ -1,5 +1,7 @@
+import { useAtomValue } from 'jotai';
+import { selectAtom } from 'jotai/utils';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 
 import { ChildrenNode } from '#/features/nodes/common';
 import { Button } from '#/features/ui/button';
@@ -9,9 +11,18 @@ import { useContainerResponsive } from '#/hooks/use-container-responsive';
 import { compareBreakpoints } from '#/lib/breakpoint';
 import { cn } from '#/lib/utils';
 
+import { appletLayoutAtom } from '../applet.store';
+
 export const Header: FC = () => {
   const [open, { toggle }] = useBoolean(true);
   const { ref, breakpoint } = useContainerResponsive();
+  const hasChildren = useAtomValue(
+    selectAtom(
+      appletLayoutAtom,
+      useCallback((layout) => layout.header.children.length > 0, []),
+    ),
+  );
+  if (!hasChildren) return null;
   return (
     <Collapsible
       className={cn(
