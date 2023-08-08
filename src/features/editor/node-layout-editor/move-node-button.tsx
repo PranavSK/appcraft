@@ -3,7 +3,7 @@ import { MoveDown, MoveUp } from 'lucide-react';
 import { FC } from 'react';
 import { setPath } from 'remeda';
 
-import { appletLayoutAtom } from '#/features/applet';
+import { appletLayoutAtom } from '#/features/applet/applet.store';
 import { Button } from '#/features/ui/button';
 import { useMemoizedCallback } from '#/hooks/use-memoized-callback';
 import { swapIndices } from '#/lib/array';

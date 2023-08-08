@@ -3,8 +3,8 @@ import { Trash2 } from 'lucide-react';
 import { FC } from 'react';
 import { clone, setPath } from 'remeda';
 
-import { appletLayoutAtom } from '#/features/applet';
-import { deleteStore } from '#/features/nodes/nodes';
+import { appletLayoutAtom } from '#/features/applet/applet.store';
+import { deleteStore } from '#/features/nodes/atoms';
 import { Button } from '#/features/ui/button';
 import { useMemoizedCallback } from '#/hooks/use-memoized-callback';
 

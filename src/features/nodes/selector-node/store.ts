@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { atomFamily } from 'jotai/utils';
 
-import { appletLayoutAtom } from '#/features/applet';
+import { appletLayoutAtom } from '#/features/applet/applet.store';
 import { nodeStateAtomFamily as groupNodeStateAtomFamily } from '#/features/nodes/group-node';
 
 import { SelectorState } from './data';

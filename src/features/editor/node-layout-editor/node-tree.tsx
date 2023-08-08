@@ -4,7 +4,7 @@ import { FC, useMemo } from 'react';
 import TreeView, { type INode, type INodeRendererProps } from 'react-accessible-treeview';
 import { isString } from 'remeda';
 
-import { appletLayoutAtom } from '#/features/applet';
+import { appletLayoutAtom } from '#/features/applet/applet.store';
 import { getNodeChildrenTypes } from '#/features/nodes';
 import { cn } from '#/lib/utils';
 

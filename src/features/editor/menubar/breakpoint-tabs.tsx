@@ -7,7 +7,7 @@ import {
   availableBreakpointsAtom,
   deleteResponsiveStore,
   getResponsiveStore,
-} from '#/features/applet';
+} from '#/features/applet/applet.store';
 import { Button } from '#/features/ui/button';
 import {
   DropdownMenu,

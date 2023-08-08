@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import { type FC, useState } from 'react';
 import { clone, pipe, setPath } from 'remeda';
 
-import { appletLayoutAtom } from '#/features/applet';
+import { appletLayoutAtom } from '#/features/applet/applet.store';
 import { getNodeStateAtom } from '#/features/nodes';
 import { Button } from '#/features/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '#/features/ui/popover';

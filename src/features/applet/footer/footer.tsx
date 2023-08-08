@@ -4,7 +4,7 @@ import { FC, useCallback } from 'react';
 
 import { ChildrenNode } from '#/features/nodes/common';
 
-import { appletLayoutAtom } from '..';
+import { appletLayoutAtom } from '../applet.store';
 
 export const Footer: FC = () => {
   const hasChildren = useAtomValue(

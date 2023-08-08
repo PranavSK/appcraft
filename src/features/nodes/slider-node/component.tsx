@@ -3,7 +3,7 @@ import { useAtom, useAtomValue } from 'jotai';
 import { type FC, useCallback, useMemo } from 'react';
 import { find, keys, mapKeys } from 'remeda';
 
-import { useAppletStoreBoundFunction } from '#/features/applet';
+import { useAppletStoreBoundFunction } from '#/features/applet/applet.store';
 import { ChildrenNode } from '#/features/nodes/common';
 import { type MarkProps, Slider } from '#/features/ui/slider';
 import { Widget } from '#/features/ui/widget';

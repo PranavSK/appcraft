@@ -7,7 +7,7 @@ import { useMemoizedCallback } from '#/hooks/use-memoized-callback';
 import { Breakpoint, WithResponsive } from '#/lib/breakpoint';
 import { atomWithHistory } from '#/lib/jotai';
 
-import { deleteStore, getNodeStateAtom } from '../nodes';
+import { deleteStore, getNodeStateAtom } from '../nodes/atoms';
 import { AppletState } from './applet.types';
 
 export const appletLayoutAtom = atomWithHistory<

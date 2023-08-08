@@ -3,7 +3,7 @@ import { Plus, X } from 'lucide-react';
 import { FC, useCallback, useState } from 'react';
 import { clone, differenceWith, filter, keys, map, pipe, setPath } from 'remeda';
 
-import { appletLayoutAtom } from '#/features/applet';
+import { appletLayoutAtom } from '#/features/applet/applet.store';
 import { nodeStateAtomFamily } from '#/features/nodes/group-node';
 import { Button } from '#/features/ui/button';
 import {

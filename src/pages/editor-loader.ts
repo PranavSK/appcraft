@@ -1,7 +1,7 @@
 import { getDefaultStore } from 'jotai';
 import { type LoaderFunction } from 'react-router-dom';
 
-import { appletIdAtom } from '#/features/applet';
+import { appletIdAtom } from '#/features/applet/applet.store';
 import { getAppletData } from '#/lib/aws-s3';
 
 export const loader: LoaderFunction = async ({ params, request }) => {

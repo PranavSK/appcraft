@@ -1,7 +1,7 @@
 import { getDefaultStore, Provider, useAtomValue } from 'jotai';
 import { type FC } from 'react';
 
-import { getResponsiveStore } from '#/features/applet';
+import { getResponsiveStore } from '#/features/applet/applet.store';
 import { Split, SplitSeparator } from '#/features/ui/split';
 
 import { breakpointAtom } from './editor.store';

@@ -2,7 +2,7 @@ import { getDefaultStore, useAtomValue } from 'jotai';
 import { Save } from 'lucide-react';
 import { type FC, useEffect, useState } from 'react';
 
-import { appletIdAtom, storeToObject } from '#/features/applet';
+import { appletIdAtom, storeToObject } from '#/features/applet/applet.store';
 import { Button } from '#/features/ui/button';
 import {
   Dialog,

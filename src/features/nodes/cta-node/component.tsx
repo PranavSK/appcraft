@@ -2,7 +2,7 @@ import { useAtomValue } from 'jotai';
 import { RotateCcw, Shuffle, Wand2 } from 'lucide-react';
 import { type FC } from 'react';
 
-import { useAppletStoreBoundFunction } from '#/features/applet';
+import { useAppletStoreBoundFunction } from '#/features/applet/applet.store';
 import { Button } from '#/features/ui/button';
 import { cn } from '#/lib/utils';
 

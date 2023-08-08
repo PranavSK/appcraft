@@ -3,7 +3,7 @@ import { selectAtom } from 'jotai/utils';
 import { type FC, Suspense, useCallback, useMemo } from 'react';
 import type { Control, FieldValues, Path } from 'react-hook-form';
 
-import { appletLayoutAtom } from '#/features/applet';
+import { appletLayoutAtom } from '#/features/applet/applet.store';
 import { selectedNodeAtom } from '#/features/editor/editor.store';
 import {
   FormControl,
@@ -16,8 +16,8 @@ import {
 import { Input } from '#/features/ui/input';
 import { cn } from '#/lib/utils';
 
+import { getNodeComponent } from '../components';
 import { nodeStateAtomFamily as groupNodeStateAtomFamily } from '../group-node';
-import { getNodeComponent } from '../nodes';
 import { GridState } from './data';
 
 function useChildNode(id: string) {
