@@ -71,7 +71,7 @@ function getHydratedAtoms(initialState: NodeStates) {
   const layout = fromPairs(
     pipe(
       initialState,
-      map((node) => [node.id, pick(node, ['type', 'children'])] as const),
+      map((node) => [node.id, pick(node, ['type', 'children', 'groups'])] as const),
     ),
   );
 
