@@ -8,14 +8,14 @@ const meta: Meta<typeof {{pascalCase name}}> = {
 export default meta;
 type Story = StoryObj<typeof {{pascalCase name}}>;
 
-export const WithBar = {
+export const WithBar: Story = {
   args: {
     foo: 'bar',
   },
-} satisfies Story;
+};
 
-export const WithBaz = {
+export const WithBaz: Story = {
   args: {
     foo: 'baz',
   },
-} satisfies Story;
+};

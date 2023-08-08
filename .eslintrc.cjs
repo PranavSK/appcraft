@@ -10,8 +10,8 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:tailwindcss/recommended',
-    'eslint-config-prettier',
     'plugin:storybook/recommended',
+    'plugin:prettier/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {

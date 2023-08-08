@@ -1,0 +1,15 @@
+import * as z from 'zod';
+
+import { gridSchema } from '../common';
+export const schema = gridSchema.extend({
+  someProperty: z.string().optional(),
+});
+export type {{pascalCase name}}State = z.infer<typeof schema>;
+export const defaultState: {{pascalCase name}}State = {
+  rowStart: 0,
+  rowEnd: 10,
+  columnStart: 0,
+  columnEnd: 14,
+  someProperty: 'some value',
+};
+export const childrenTypes = [] as const;

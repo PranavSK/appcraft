@@ -1,13 +1,7 @@
 export default function (/** @type {import('plop').NodePlopAPI} */ plop) {
-  plop.setGenerator('feature', {
-    description: 'Feature Component Scaffolding',
+  plop.setGenerator('ui', {
+    description: 'UI Component Scaffolding',
     prompts: [
-      {
-        type: 'input',
-        name: 'category',
-        message: 'What is the component category?',
-        default: 'ui',
-      },
       {
         type: 'input',
         name: 'name',
@@ -17,9 +11,28 @@ export default function (/** @type {import('plop').NodePlopAPI} */ plop) {
     actions: [
       {
         type: 'addMany',
-        destination: 'src/features/{{kebabCase category}}/{{kebabCase name}}',
-        templateFiles: '.templates/feature/*.hbs',
-        base: '.templates/feature',
+        destination: 'src/features/ui/{{kebabCase name}}',
+        templateFiles: '.templates/ui/*.hbs',
+        base: '.templates/ui',
+      },
+    ],
+  });
+
+  plop.setGenerator('applet-node', {
+    description: 'Applet Node Scaffolding',
+    prompts: [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is the node name?',
+      },
+    ],
+    actions: [
+      {
+        type: 'addMany',
+        destination: 'src/features/nodes/{{kebabCase name}}-node',
+        templateFiles: '.templates/node/*.hbs',
+        base: '.templates/node',
       },
     ],
   });
