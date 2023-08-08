@@ -2,8 +2,10 @@ import { type ExtractAtomValue, useAtomValue, useSetAtom } from 'jotai';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { FC, useMemo } from 'react';
 import TreeView, { type INode, type INodeRendererProps } from 'react-accessible-treeview';
+import { isString } from 'remeda';
 
 import { appletLayoutAtom } from '#/features/applet';
+import { getNodeChildrenTypes } from '#/features/nodes';
 import { cn } from '#/lib/utils';
 
 import { selectedNodeAtom } from '../editor.store';
@@ -13,21 +15,24 @@ function constructNodeTreeFromLayout(layout: ExtractAtomValue<typeof appletLayou
     {
       name: '',
       id: 'root',
-      children: ['header', 'grid', 'footer'],
+      children: ['header', 'grid', 'footer', 'behaviors'],
       parent: null,
     },
   ];
 
   function recurseChildren(id: string) {
-    const children = layout[id].children;
+    const children =
+      id === 'root' ? ['header', 'grid', 'footer', 'behaviors'] : layout[id].children;
     if (children) {
       children.forEach((child) => {
+        const validChildren = JSON.stringify(getNodeChildrenTypes(layout[child].type));
         const name = layout[child].type;
         nodes.push({
           name,
           id: child,
           children: recurseChildren(child),
           parent: id,
+          metadata: { validChildren },
         });
       });
 
@@ -37,34 +42,7 @@ function constructNodeTreeFromLayout(layout: ExtractAtomValue<typeof appletLayou
     return [];
   }
 
-  nodes.push({
-    name: 'header',
-    id: 'header',
-    children: recurseChildren('header'),
-    parent: 'root',
-    metadata: {
-      type: 'header',
-    },
-  });
-  nodes.push({
-    name: 'grid',
-    id: 'grid',
-    children: recurseChildren('grid'),
-    parent: 'root',
-    metadata: {
-      type: 'grid',
-    },
-  });
-
-  nodes.push({
-    name: 'footer',
-    id: 'footer',
-    children: recurseChildren('footer'),
-    parent: 'root',
-    metadata: {
-      type: 'footer',
-    },
-  });
+  recurseChildren('root');
 
   return nodes;
 }
@@ -99,6 +77,14 @@ const NodeRenderer: FC<INodeRendererProps> = ({
   );
 };
 
+function getValidChildren(element: INode) {
+  const metadata = element.metadata;
+  if (metadata == null) return [];
+  const validChildren = metadata.validChildren;
+  if (validChildren == null) return [];
+  return isString(validChildren) ? (JSON.parse(validChildren) as string[]) : [];
+}
+
 export const NodeTree: FC = () => {
   const layout = useAtomValue(appletLayoutAtom);
   const treeData = useMemo(() => constructNodeTreeFromLayout(layout), [layout]);
@@ -114,6 +100,7 @@ export const NodeTree: FC = () => {
             id: `${element.id}`,
             type: element.name,
             parent: element.parent != null ? `${element.parent}` : null,
+            validChildren: getValidChildren(element),
           });
         }
       }}

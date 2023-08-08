@@ -17,10 +17,10 @@ import { Input } from '#/features/ui/input';
 
 import { NodePropertyEditorProps } from '../node.types';
 import { imageSchema, type ImageState } from './data';
-import { getStore } from './store';
+import { nodeStateAtomFamily } from './store';
 
 export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
-  const [state, setState] = useAtom(getStore(id));
+  const [state, setState] = useAtom(nodeStateAtomFamily(id));
   const form = useForm<ImageState>({
     resolver: zodResolver(imageSchema),
     values: state,

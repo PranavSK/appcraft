@@ -9,11 +9,19 @@ import { Separator } from '#/features/ui/separator';
 import { copyToClipboard } from '#/lib/utils';
 
 import { selectedNodeAtom } from '../editor.store';
+import { GroupEditor } from './group-editor';
 
 export const PropertyEditor: FC = () => {
   const { id, type } = useAtomValue(selectedNodeAtom);
 
-  if (type == null || id == null || type === 'grid' || type === 'footer' || type === 'header')
+  if (
+    type == null ||
+    id == null ||
+    type === 'grid' ||
+    type === 'footer' ||
+    type === 'header' ||
+    type === 'behaviors'
+  )
     return <div className="bg-secondary" />;
 
   const NodePropertyEditor = getNodePropertyEditor(type);
@@ -33,6 +41,7 @@ export const PropertyEditor: FC = () => {
               </Button>
             </div>
             <Separator />
+            <GroupEditor />
           </>
         )}
         <Suspense>

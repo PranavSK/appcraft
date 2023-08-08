@@ -1,11 +1,11 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useAtom } from "jotai";
-import { type FC } from "react";
-import { useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useAtom } from 'jotai';
+import { type FC } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { AboutCode } from "#/features/nodes/common";
-import { EditGridFields } from "#/features/nodes/common";
-import { Button } from "#/features/ui/button";
+import { AboutCode } from '#/features/nodes/common';
+import { EditGridFields } from '#/features/nodes/common';
+import { Button } from '#/features/ui/button';
 import {
   Form,
   FormControl,
@@ -14,17 +14,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "#/features/ui/form";
-import { Input } from "#/features/ui/input";
-import { Separator } from "#/features/ui/separator";
-import { Textarea } from "#/features/ui/textarea";
+} from '#/features/ui/form';
+import { Input } from '#/features/ui/input';
+import { Separator } from '#/features/ui/separator';
+import { Textarea } from '#/features/ui/textarea';
 
-import { NodePropertyEditorProps } from "../node.types";
-import { schema, type SliderState } from "./data";
-import { getStore } from "./store";
+import { NodePropertyEditorProps } from '../node.types';
+import { schema, type SliderState } from './data';
+import { nodeStateAtomFamily } from './store';
 
 export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
-  const [state, setState] = useAtom(getStore(id));
+  const [state, setState] = useAtom(nodeStateAtomFamily(id));
   const form = useForm<SliderState>({
     resolver: zodResolver(schema),
     values: state,
@@ -99,7 +99,7 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
                 <Textarea className="font-mono" placeholder="Enter JSON or all" {...field} />
               </FormControl>
               <FormDescription>
-                Enter a JSON object with keys as positions and values as the mark label. Enter{" "}
+                Enter a JSON object with keys as positions and values as the mark label. Enter{' '}
                 <strong>all</strong> to show the entire range. Leave empty to show no marks.
               </FormDescription>
               <FormMessage />

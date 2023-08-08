@@ -4,6 +4,7 @@ import { type FC } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Button } from '#/features/ui/button';
+import { Checkbox } from '#/features/ui/checkbox';
 import {
   Form,
   FormControl,
@@ -16,13 +17,13 @@ import {
 import { Input } from '#/features/ui/input';
 
 import { NodePropertyEditorProps } from '../node.types';
-import { latexSchema, type LatexState } from './data';
+import { type GroupState, schema } from './data';
 import { nodeStateAtomFamily } from './store';
 
 export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
   const [state, setState] = useAtom(nodeStateAtomFamily(id));
-  const form = useForm<LatexState>({
-    resolver: zodResolver(latexSchema),
+  const form = useForm<GroupState>({
+    resolver: zodResolver(schema),
     values: state,
   });
 
@@ -31,18 +32,31 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
       <form onSubmit={form.handleSubmit(setState)} className="space-y-4">
         <FormField
           control={form.control}
-          name="latex"
+          name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Latex</FormLabel>
+              <FormLabel>Group Name</FormLabel>
               <FormControl>
-                <Input placeholder="\\Latex" {...field} />
+                <Input placeholder="Group name" {...field} />
               </FormControl>
-              <FormDescription>
-                Enter LaTex expression. See{' '}
-                <a href="https://katex.org/docs/supported.html">KaTex Supported Functions</a>.
-              </FormDescription>
+              <FormDescription>Enter the group name.</FormDescription>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="active"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4">
+              <FormControl>
+                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel>Active</FormLabel>
+                <FormDescription>Check to make all nodes in this group active.</FormDescription>
+                <FormMessage />
+              </div>
             </FormItem>
           )}
         />

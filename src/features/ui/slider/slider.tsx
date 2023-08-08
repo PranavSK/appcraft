@@ -1,12 +1,12 @@
-import * as SliderPrimitive from "@radix-ui/react-slider";
-import { type ElementRef, forwardRef } from "react";
+import * as SliderPrimitive from '@radix-ui/react-slider';
+import { type ElementRef, forwardRef } from 'react';
 
-import { useControllableValue } from "#/hooks/use-controllable-value";
-import { useElementSize } from "#/hooks/use-element-size";
+import { useControllableValue } from '#/hooks/use-controllable-value';
+import { useElementSize } from '#/hooks/use-element-size';
 
-import type { SliderProps } from "./slider.types";
-import { Marks } from "./slider.utils";
-import { rangeVariants, rootVariants, thumbVariants, trackVariants } from "./slider.variants";
+import type { SliderProps } from './slider.types';
+import { Marks } from './slider.utils';
+import { rangeVariants, rootVariants, thumbVariants, trackVariants } from './slider.variants';
 
 export const Slider = forwardRef<ElementRef<typeof SliderPrimitive.Root>, SliderProps>(
   (

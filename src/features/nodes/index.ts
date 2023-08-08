@@ -4,5 +4,5 @@ export {
   getNodeChildrenTypes,
   getNodeComponent,
   getNodePropertyEditor,
-  getStore,
+  getNodeStateAtom,
 } from './nodes';

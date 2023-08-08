@@ -51,7 +51,7 @@ function useEditorAppletRemoveNode({
       )(layoutCopy);
     });
 
-    setSelectedNode({ id: null, type: null, parent: null });
+    setSelectedNode({ id: null, type: null, parent: null, validChildren: [] });
   });
 }
 
@@ -69,7 +69,8 @@ export const DeleteNodeButton: FC = () => {
         selectedNode.type == null ||
         selectedNode.type === 'footer' ||
         selectedNode.type === 'grid' ||
-        selectedNode.type === 'header'
+        selectedNode.type === 'header' ||
+        selectedNode.type === 'behaviors'
       }
     >
       <Trash2 className="h-4 w-4" />

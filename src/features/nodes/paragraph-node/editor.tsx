@@ -9,10 +9,10 @@ import { Form } from '#/features/ui/form';
 
 import { NodePropertyEditorProps } from '../node.types';
 import { type ParagraphState, schema } from './data';
-import { getStore } from './store';
+import { nodeStateAtomFamily } from './store';
 
 export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
-  const [state, setState] = useAtom(getStore(id));
+  const [state, setState] = useAtom(nodeStateAtomFamily(id));
   const form = useForm<ParagraphState>({
     resolver: zodResolver(schema),
     values: state,

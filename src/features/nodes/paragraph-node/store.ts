@@ -4,4 +4,4 @@ import { atomWithHistory } from '#/lib/jotai';
 
 import { defaultState } from './data';
 
-export const getStore = atomFamily((_id: string) => atomWithHistory(defaultState));
+export const nodeStateAtomFamily = atomFamily((_id: string) => atomWithHistory(defaultState));

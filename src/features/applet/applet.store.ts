@@ -7,16 +7,17 @@ import { useMemoizedCallback } from '#/hooks/use-memoized-callback';
 import { Breakpoint, WithResponsive } from '#/lib/breakpoint';
 import { atomWithHistory } from '#/lib/jotai';
 
-import { deleteStore, getStore } from '../nodes';
+import { deleteStore, getNodeStateAtom } from '../nodes';
 import { AppletState } from './applet.types';
 
 export const appletLayoutAtom = atomWithHistory<
-  Record<string, Pick<AppletState['DEFAULT'][number], 'type' | 'children'>>
+  Record<string, Pick<AppletState['DEFAULT'][number], 'type' | 'children' | 'groups'>>
 >(
   fromPairs([
-    ['header', { type: 'header', children: [] }],
-    ['grid', { type: 'grid', children: [] }],
-    ['footer', { type: 'footer', children: [] }],
+    ['header', { type: 'header', children: [], groups: [] }],
+    ['grid', { type: 'grid', children: [], groups: [] }],
+    ['footer', { type: 'footer', children: [], groups: [] }],
+    ['behaviors', { type: 'behaviors', children: [], groups: [] }],
   ]),
 );
 
@@ -46,7 +47,7 @@ export const availableBreakpointsAtom = atom<Breakpoint[]>((get) => keys.strict(
 export function useAppletStoreBoundFunction(...args: string[]) {
   const store = useStore();
   function get(type: string, id: string, key: string) {
-    const nodeStore = getStore(type, id);
+    const nodeStore = getNodeStateAtom(type, id);
     if (type === 'geogebra') {
       const api = getValidGeogebraApi(id, store);
       if (api == null) return;
@@ -55,7 +56,7 @@ export function useAppletStoreBoundFunction(...args: string[]) {
     return store.get(nodeStore)[key];
   }
   function set(type: string, id: string, key: string, value: unknown) {
-    const nodeStore = getStore(type, id);
+    const nodeStore = getNodeStateAtom(type, id);
     if (type === 'geogebra') {
       const api = getValidGeogebraApi(id, store);
       if (api == null) return;
@@ -80,15 +81,15 @@ export function storeToObject() {
   for (const [breakpoint, store] of Object.entries(stores)) {
     const nodes: AppletState['DEFAULT'] = [];
     const layout = store.get(appletLayoutAtom);
-    for (const [id, { type, children }] of Object.entries(layout)) {
+    for (const [id, { type, children, groups }] of Object.entries(layout)) {
       let initialState;
-      if (type === 'header' || type === 'footer' || type === 'grid') {
+      if (type === 'header' || type === 'footer' || type === 'grid' || type === 'behaviors') {
         initialState = undefined;
       } else {
-        const nodeStore = getStore(type, id);
+        const nodeStore = getNodeStateAtom(type, id);
         initialState = store.get(nodeStore);
       }
-      nodes.push({ id, type, children, initialState });
+      nodes.push({ id, type, children, groups, initialState });
     }
     state.set(breakpoint, nodes);
   }
@@ -101,7 +102,8 @@ function cleanup() {
   for (const store of stores) {
     const layout = store.get(appletLayoutAtom);
     for (const [id, { type }] of Object.entries(layout)) {
-      if (type === 'header' || type === 'footer' || type === 'grid') continue;
+      if (type === 'header' || type === 'footer' || type === 'grid' || type === 'behaviors')
+        continue;
       deleteStore(type, id);
     }
   }

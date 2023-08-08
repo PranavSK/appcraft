@@ -1,6 +1,6 @@
-import { useAtomValue } from 'jotai';
+import { atom, useAtomValue } from 'jotai';
 import { selectAtom } from 'jotai/utils';
-import { type FC, Suspense, useCallback } from 'react';
+import { type FC, Suspense, useCallback, useMemo } from 'react';
 import type { Control, FieldValues, Path } from 'react-hook-form';
 
 import { appletLayoutAtom } from '#/features/applet';
@@ -16,8 +16,34 @@ import {
 import { Input } from '#/features/ui/input';
 import { cn } from '#/lib/utils';
 
+import { nodeStateAtomFamily as groupNodeStateAtomFamily } from '../group-node';
 import { getNodeComponent } from '../nodes';
 import { GridState } from './data';
+
+function useChildNode(id: string) {
+  const selectedAtom = selectAtom(
+    appletLayoutAtom,
+    useCallback((state) => state[id], [id]),
+  );
+
+  const mappedAtom = useMemo(
+    () =>
+      atom((get) => {
+        const { type, groups } = get(selectedAtom);
+        const isActive =
+          groups.length > 0
+            ? groups
+                .map((group) => groupNodeStateAtomFamily(group))
+                .map(get)
+                .some((group) => group.active)
+            : true;
+        return { type, isActive };
+      }),
+    [selectedAtom],
+  );
+
+  return useAtomValue(mappedAtom);
+}
 
 const ChildNode: FC<{ id: string }> = ({ id }) => {
   const isSelected = useAtomValue(
@@ -26,21 +52,18 @@ const ChildNode: FC<{ id: string }> = ({ id }) => {
       useCallback((state) => state.id === id, [id]),
     ),
   );
-  const type = useAtomValue(
-    selectAtom(
-      appletLayoutAtom,
-      useCallback((state) => state[id]?.type ?? 'unknown', [id]),
-    ),
-  );
+  const { type, isActive } = useChildNode(id);
   const Component = getNodeComponent(type);
 
   return (
-    <Suspense>
-      <Component
-        id={id}
-        className={cn(isSelected && 'rounded-sm outline-dashed outline-1 outline-primary/50')}
-      />
-    </Suspense>
+    isActive && (
+      <Suspense>
+        <Component
+          id={id}
+          className={cn(isSelected && 'rounded-sm outline-dashed outline-1 outline-primary/50')}
+        />
+      </Suspense>
+    )
   );
 };
 
@@ -48,7 +71,7 @@ export const ChildrenNode: FC<{ id: string }> = ({ id }) => {
   const children = useAtomValue(
     selectAtom(
       appletLayoutAtom,
-      useCallback((state) => state[id].children ?? [], [id]),
+      useCallback((state) => state[id].children, [id]),
     ),
   );
 

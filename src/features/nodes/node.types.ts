@@ -16,5 +16,5 @@ export interface Node {
   PropertyEditor: ComponentType<NodePropertyEditorProps>;
   childrenTypes: readonly string[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getStore: AtomFamily<string, PrimitiveAtom<any>>;
+  nodeStateAtomFamily: AtomFamily<string, PrimitiveAtom<any>>;
 }

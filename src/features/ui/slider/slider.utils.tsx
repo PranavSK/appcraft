@@ -1,11 +1,11 @@
-import { type FC } from "react";
-import { filter, map, pipe } from "remeda";
+import { type FC } from 'react';
+import { filter, map, pipe } from 'remeda';
 
-import { approxeq, getProgress } from "#/lib/math";
-import { cn } from "#/lib/utils";
+import { approxeq, getProgress } from '#/lib/math';
+import { cn } from '#/lib/utils';
 
-import type { MarkProps, SliderProps } from "./slider.types";
-import { markVariants } from "./slider.variants";
+import type { MarkProps, SliderProps } from './slider.types';
+import { markVariants } from './slider.variants';
 
 const DefaultMark: FC<MarkProps> = ({
   mark,
@@ -19,10 +19,10 @@ const DefaultMark: FC<MarkProps> = ({
   return (
     <div
       key={mark}
-      className={cn(size === "lg" && markVariants({ orientation }))}
+      className={cn(size === 'lg' && markVariants({ orientation }))}
       style={{
         [start]: `calc(${mark}% + ${offset}px)`,
-        transform: `${transformType}(${isNegativeTransform ? "-" : ""}50%)`,
+        transform: `${transformType}(${isNegativeTransform ? '-' : ''}50%)`,
       }}
     />
   );
@@ -38,35 +38,35 @@ function getThumbOffset(width: number, position: number, direction: number) {
 export const Marks = (
   props: Pick<
     SliderProps,
-    "orientation" | "inverted" | "dir" | "min" | "max" | "marks" | "markRenderer"
+    'orientation' | 'inverted' | 'dir' | 'min' | 'max' | 'marks' | 'markRenderer'
   > & {
     thumbSize?: number;
     currentValue?: number;
   },
 ) => {
   const isSlidingFromBottom = !props.inverted;
-  const isDirectionLTR = props.dir == null || props.dir === "ltr";
+  const isDirectionLTR = props.dir == null || props.dir === 'ltr';
   const isSlidingFromLeft =
     (isDirectionLTR && !props.inverted) || (!isDirectionLTR && props.inverted);
-  let start: MarkProps["start"];
-  let transformType: MarkProps["transformType"];
+  let start: MarkProps['start'];
+  let transformType: MarkProps['transformType'];
   let isNegativeTransform: boolean;
-  if (props.orientation === "vertical") {
-    transformType = "translateY";
+  if (props.orientation === 'vertical') {
+    transformType = 'translateY';
     if (isSlidingFromBottom) {
-      start = "bottom";
+      start = 'bottom';
       isNegativeTransform = false;
     } else {
-      start = "top";
+      start = 'top';
       isNegativeTransform = true;
     }
   } else {
-    transformType = "translateX";
+    transformType = 'translateX';
     if (isSlidingFromLeft) {
-      start = "left";
+      start = 'left';
       isNegativeTransform = true;
     } else {
-      start = "right";
+      start = 'right';
       isNegativeTransform = false;
     }
   }

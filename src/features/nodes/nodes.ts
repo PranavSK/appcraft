@@ -45,8 +45,9 @@ const childrenTypes = import.meta.glob<Node['childrenTypes']>('./**-node/index.t
 
 export const getNodeChildrenTypes = (type: string) => {
   if (type === 'header') return ['text', 'latex', 'image'];
+  if (type === 'grid') return ['paragraph', 'slider', 'geogebra', 'rect'];
   if (type === 'footer') return [];
-  if (type === 'grid') return ['paragraph', 'slider', 'geogebra'];
+  if (type === 'behaviors') return ['group', 'selector'];
   const types = childrenTypes[`./${type}-node/index.ts`];
   if (!types) {
     throw new Error(`Node type "${type}" does not exist`);
@@ -54,12 +55,12 @@ export const getNodeChildrenTypes = (type: string) => {
   return types;
 };
 
-const storeGetters = import.meta.glob<Node['getStore']>('./**-node/index.ts', {
-  import: 'getStore',
+const storeGetters = import.meta.glob<Node['nodeStateAtomFamily']>('./**-node/index.ts', {
+  import: 'nodeStateAtomFamily',
   eager: true,
 });
 
-export const getStore = (type: string, id: string) => {
+export const getNodeStateAtom = (type: string, id: string) => {
   const getter = storeGetters[`./${type}-node/index.ts`];
   if (!getter) {
     throw new Error(`Node type "${type}" does not exist`);

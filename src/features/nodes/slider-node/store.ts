@@ -11,7 +11,7 @@ export const valueFamily = atomFamily((_id: string) => atomWithHistory(defaultSt
 export const sliderFamily = atomFamily((_id: string) =>
   atomWithHistory(omit(defaultState, ['value'])),
 );
-export const getStore = atomFamily((id: string) =>
+export const nodeStateAtomFamily = atomFamily((id: string) =>
   atom(
     (get) => {
       return { ...get(sliderFamily(id)), value: get(valueFamily(id)) };

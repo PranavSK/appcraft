@@ -16,13 +16,13 @@ import {
 import { Input } from '#/features/ui/input';
 
 import { NodePropertyEditorProps } from '../node.types';
-import { latexSchema, type LatexState } from './data';
+import { schema, type SelectorState } from './data';
 import { nodeStateAtomFamily } from './store';
 
 export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
   const [state, setState] = useAtom(nodeStateAtomFamily(id));
-  const form = useForm<LatexState>({
-    resolver: zodResolver(latexSchema),
+  const form = useForm<SelectorState>({
+    resolver: zodResolver(schema),
     values: state,
   });
 
@@ -31,17 +31,14 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
       <form onSubmit={form.handleSubmit(setState)} className="space-y-4">
         <FormField
           control={form.control}
-          name="latex"
+          name="activeIndex"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Latex</FormLabel>
+              <FormLabel>Active Index</FormLabel>
               <FormControl>
-                <Input placeholder="\\Latex" {...field} />
+                <Input type="number" {...field} />
               </FormControl>
-              <FormDescription>
-                Enter LaTex expression. See{' '}
-                <a href="https://katex.org/docs/supported.html">KaTex Supported Functions</a>.
-              </FormDescription>
+              <FormDescription>Enter the index of the child group to make active.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

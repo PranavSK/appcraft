@@ -17,7 +17,7 @@ import { Input } from '#/features/ui/input';
 
 import { NodePropertyEditorProps } from '../node.types';
 import { textSchema, type TextState } from './data';
-import { getStore } from './store';
+import { nodeStateAtomFamily } from './store';
 
 interface CustomStyle extends CSSProperties {
   '--editor-color-input': string;
@@ -30,7 +30,7 @@ function getCustomStyle(color: string | undefined): CustomStyle {
 }
 
 export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
-  const [state, setState] = useAtom(getStore(id));
+  const [state, setState] = useAtom(nodeStateAtomFamily(id));
 
   const form = useForm<TextState>({
     resolver: zodResolver(textSchema),

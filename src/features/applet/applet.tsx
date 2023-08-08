@@ -1,52 +1,68 @@
-import { getDefaultStore, Provider, useStore } from "jotai";
-import { useHydrateAtoms } from "jotai/utils";
-import { type FC, Suspense, useEffect, useMemo } from "react";
-import { filter, fromPairs, keys, map, pick, pipe } from "remeda";
+import { getDefaultStore, Provider, useStore } from 'jotai';
+import { useHydrateAtoms } from 'jotai/utils';
+import { type FC, Suspense, useEffect, useMemo } from 'react';
+import { filter, fromPairs, keys, map, pick, pipe } from 'remeda';
 
-import { getStore } from "#/features/nodes";
-import { Card } from "#/features/ui/card";
-import { useContainerResponsive } from "#/hooks/use-container-responsive";
-import { mapToClosestBreakpoint } from "#/lib/breakpoint";
-import { useClearHistory } from "#/lib/jotai";
+import { getNodeStateAtom } from '#/features/nodes';
+import { Card } from '#/features/ui/card';
+import { useContainerResponsive } from '#/hooks/use-container-responsive';
+import { mapToClosestBreakpoint } from '#/lib/breakpoint';
+import { useClearHistory } from '#/lib/jotai';
 
-import { appletLayoutAtom, getResponsiveStore } from "./applet.store";
-import type { AppletProps, AppletState } from "./applet.types";
-import { Footer } from "./footer";
-import { Grid } from "./grid";
-import { Header } from "./header";
+import { appletLayoutAtom, getResponsiveStore } from './applet.store';
+import type { AppletProps, AppletState } from './applet.types';
+import { Footer } from './footer';
+import { Grid } from './grid';
+import { Header } from './header';
 
 const defaultInitialState: AppletState = {
   DEFAULT: [
     {
-      id: "header",
-      type: "header",
+      id: 'header',
+      type: 'header',
       children: [],
+      groups: [],
       initialState: undefined,
     },
     {
-      id: "grid",
-      type: "grid",
+      id: 'grid',
+      type: 'grid',
       children: [],
+      groups: [],
       initialState: undefined,
     },
     {
-      id: "footer",
-      type: "footer",
+      id: 'footer',
+      type: 'footer',
       children: [],
+      groups: [],
+      initialState: undefined,
+    },
+    {
+      id: 'behaviors',
+      type: 'behaviors',
+      children: [],
+      groups: [],
       initialState: undefined,
     },
   ],
 };
 
-type NodeStates = AppletState["DEFAULT"];
+type NodeStates = AppletState['DEFAULT'];
 
 function getHydratedAtoms(initialState: NodeStates) {
   const hydrations = pipe(
     initialState,
-    filter((node) => node.type !== "header" && node.type !== "footer" && node.type !== "grid"),
+    filter(
+      (node) =>
+        node.type !== 'header' &&
+        node.type !== 'footer' &&
+        node.type !== 'grid' &&
+        node.type !== 'behaviors',
+    ),
     map((node) => {
       const { type, id, initialState } = node;
-      const atom = getStore(type, id);
+      const atom = getNodeStateAtom(type, id);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return [atom, initialState] as [any, any];
     }),
@@ -55,7 +71,7 @@ function getHydratedAtoms(initialState: NodeStates) {
   const layout = fromPairs(
     pipe(
       initialState,
-      map((node) => [node.id, pick(node, ["type", "children"])] as const),
+      map((node) => [node.id, pick(node, ['type', 'children'])] as const),
     ),
   );
 
@@ -121,6 +137,7 @@ export const Applet: FC<AppletProps> = ({
           <Header />
           <Grid />
           <Footer />
+          {/* <Behaviors /> */}
         </Suspense>
       </Provider>
     </Card>

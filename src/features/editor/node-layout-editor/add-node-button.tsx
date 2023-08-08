@@ -5,7 +5,7 @@ import { type FC, useState } from 'react';
 import { clone, pipe, setPath } from 'remeda';
 
 import { appletLayoutAtom } from '#/features/applet';
-import { getNodeChildrenTypes, getStore } from '#/features/nodes';
+import { getNodeStateAtom } from '#/features/nodes';
 import { Button } from '#/features/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '#/features/ui/popover';
 
@@ -23,12 +23,12 @@ function useEditorAppletAddChild(id: string | null, type: string | null) {
       const children = [...selectedNodeData.children, childId];
 
       // Initialize the atom family for the child node.
-      getStore(childType, childId);
+      getNodeStateAtom(childType, childId);
 
       layoutCopy = pipe(
         layoutCopy,
         setPath([id, 'children'], children),
-        setPath([childId], { type: childType, children: [] }),
+        setPath([childId], { type: childType, children: [], groups: [] }),
       );
       return layoutCopy;
     });
@@ -36,9 +36,12 @@ function useEditorAppletAddChild(id: string | null, type: string | null) {
 }
 
 export const AddNodeButton: FC = () => {
-  const { id: selectedNodeId, type: selectedNodeType } = useAtomValue(selectedNodeAtom);
+  const {
+    id: selectedNodeId,
+    type: selectedNodeType,
+    validChildren,
+  } = useAtomValue(selectedNodeAtom);
   const [showAddChildPopover, setShowAddChildPopover] = useState(false);
-  const validChildren = selectedNodeType != null ? getNodeChildrenTypes(selectedNodeType) : [];
   const hasValidChildren = validChildren.length > 0;
   const handleAddChild = useEditorAppletAddChild(selectedNodeId, selectedNodeType);
 

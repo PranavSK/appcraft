@@ -8,10 +8,12 @@ export const selectedNodeAtom = atom<{
   id: string | null;
   type: string | null;
   parent: string | null;
+  validChildren: readonly string[];
 }>({
   id: null,
   type: null,
   parent: null,
+  validChildren: [],
 });
 export const breakpointAtom = atom<Breakpoint>('DEFAULT');
 const saveAtom = atom<{ onSave: (state: AppletState, id: string) => void }>({ onSave: noop });

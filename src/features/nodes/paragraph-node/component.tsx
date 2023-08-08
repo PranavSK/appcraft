@@ -6,10 +6,10 @@ import { Widget } from '#/features/ui/widget';
 import { cn } from '#/lib/utils';
 
 import type { NodeProps } from '../node.types';
-import { getStore } from './store';
+import { nodeStateAtomFamily } from './store';
 
 export const Component: FC<NodeProps> = ({ id, className }) => {
-  const state = useAtomValue(getStore(id));
+  const state = useAtomValue(nodeStateAtomFamily(id));
   return (
     <Widget {...state} className={cn(className, 'text-center')}>
       <ChildrenNode id={id} />

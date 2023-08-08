@@ -1,8 +1,8 @@
-import * as z from "zod";
+import * as z from 'zod';
 
-import { gridSchema } from "#/features/nodes/common";
+import { gridSchema } from '#/features/nodes/common';
 
-export const childrenTypes = ["text", "latex", "image"] as const;
+export const childrenTypes = ['text', 'latex', 'image'] as const;
 const marksSchema = z.record(z.coerce.number(), z.string());
 export const schema = gridSchema
   .extend({
@@ -18,40 +18,40 @@ export const schema = gridSchema
     if (data.min > data.max) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Min must be less than or equal to max",
-        path: ["min"],
+        message: 'Min must be less than or equal to max',
+        path: ['min'],
       });
     }
 
     if (data.step <= 0) {
       ctx.addIssue({
-        type: "number",
+        type: 'number',
         code: z.ZodIssueCode.too_small,
         minimum: 0,
         inclusive: false,
         exact: true,
-        message: "Step must be greater than 0",
-        path: ["step"],
+        message: 'Step must be greater than 0',
+        path: ['step'],
       });
     }
 
     if (data.value < data.min || data.value > data.max) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Value must be between min and max",
-        path: ["value"],
+        message: 'Value must be between min and max',
+        path: ['value'],
       });
     }
 
     if (data.step > data.max - data.min) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Step must be less than or equal to max - min",
-        path: ["step"],
+        message: 'Step must be less than or equal to max - min',
+        path: ['step'],
       });
     }
 
-    if (data.marks && data.marks.toLowerCase() !== "all") {
+    if (data.marks && data.marks.toLowerCase() !== 'all') {
       try {
         const json = JSON.parse(data.marks);
         marksSchema.parse(json);
@@ -60,14 +60,14 @@ export const schema = gridSchema
           for (const issue of e.issues) {
             ctx.addIssue({
               ...issue,
-              path: ["marks", ...issue.path],
+              path: ['marks', ...issue.path],
             });
           }
         }
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "Marks must be valid JSON or 'all' or empty.",
-          path: ["marks"],
+          path: ['marks'],
         });
       }
     }
@@ -83,5 +83,5 @@ export const defaultState: SliderState = {
   rowEnd: 14,
   columnStart: 1,
   columnEnd: 13,
-  marks: "all",
+  marks: 'all',
 };

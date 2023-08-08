@@ -5,11 +5,11 @@ import { Geogebra } from '#/features/integrations/geogebra';
 import { Widget } from '#/features/ui/widget';
 
 import type { NodeProps } from '../node.types';
-import { getStore } from './store';
+import { nodeStateAtomFamily } from './store';
 
 export const Component: FC<NodeProps> = ({ id, className }) => {
   const ggbRef = useRef<ComponentRef<typeof Geogebra>>(null);
-  const { materialId, ...state } = useAtomValue(getStore(id));
+  const { materialId, ...state } = useAtomValue(nodeStateAtomFamily(id));
 
   return (
     <Widget className={className} asChild {...state}>
