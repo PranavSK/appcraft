@@ -51,7 +51,12 @@ export const schema = gridSchema
       });
     }
 
-    if (data.marks && data.marks.toLowerCase() !== 'all') {
+    if (
+      data.marks &&
+      data.marks.toLowerCase() !== 'all' &&
+      data.marks.toLowerCase() !== 'active' &&
+      data.marks !== ''
+    ) {
       try {
         const json = JSON.parse(data.marks);
         marksSchema.parse(json);

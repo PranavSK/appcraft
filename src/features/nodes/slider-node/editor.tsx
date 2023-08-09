@@ -100,6 +100,7 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
               </FormControl>
               <FormDescription>
                 Enter a JSON object with keys as positions and values as the mark label. Enter{' '}
+                <strong>active</strong> to show all marks with only the active mark label. Enter{' '}
                 <strong>all</strong> to show the entire range. Leave empty to show no marks.
               </FormDescription>
               <FormMessage />

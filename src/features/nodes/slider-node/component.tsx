@@ -28,8 +28,8 @@ const markVariants = cva('absolute z-10 rounded-full bg-primary/60', {
 const markLabelVariants = cva('relative min-h-fit min-w-fit', {
   variants: {
     orientation: {
-      horizontal: 'left-1/2 -translate-x-1/2 -translate-y-10',
-      vertical: 'top-1/2 -translate-y-1/2',
+      horizontal: 'left-1/2 -translate-x-1/2 -translate-y-11',
+      vertical: 'top-1/2 -translate-y-1/2 translate-x-10',
     },
     status: {
       active: 'font-extrabold',
@@ -42,7 +42,17 @@ const markLabelVariants = cva('relative min-h-fit min-w-fit', {
   },
 });
 
-const getMarkRenderer = (marks: Record<number, string>) => {
+const getMarkRenderer = (marks: Record<number, string>, showOnlyActiveLabel = false) => {
+  const minMark = Math.min(...keys(marks).map(Number));
+  const maxMark = Math.max(...keys(marks).map(Number));
+  const shouldShowLabel = (isCurrent: boolean | undefined, mark: number) => {
+    return (
+      showOnlyActiveLabel === isCurrent ||
+      !showOnlyActiveLabel ||
+      approxeq(mark, minMark) ||
+      approxeq(mark, maxMark)
+    );
+  };
   const Mark: FC<MarkProps> = ({
     mark,
     isCurrent,
@@ -61,13 +71,15 @@ const getMarkRenderer = (marks: Record<number, string>) => {
           transform: `${transformType}(${isNegativeTransform ? '-' : ''}50%)`,
         }}
       >
-        <div
-          className={cn(
-            markLabelVariants({ orientation, status: isCurrent ? 'active' : 'inactive' }),
-          )}
-        >
-          {find(Object.entries(marks), ([key]) => approxeq(mark, Number(key)))?.[1] ?? mark}
-        </div>
+        {shouldShowLabel(isCurrent, mark) && (
+          <div
+            className={cn(
+              markLabelVariants({ orientation, status: isCurrent ? 'active' : 'inactive' }),
+            )}
+          >
+            {find(Object.entries(marks), ([key]) => approxeq(mark, Number(key)))?.[1] ?? mark}
+          </div>
+        )}
       </div>
     );
   };
@@ -95,7 +107,9 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
     let markValues: number[] = [];
     let marksMap: Record<number, string> = {};
     if (marks) {
-      if (marks.toLowerCase() === 'all') {
+      const showOnlyActiveLabel = marks.toLowerCase() === 'active';
+      const showAllLabels = marks.toLowerCase() === 'all';
+      if (showOnlyActiveLabel || showAllLabels) {
         markValues = range(max, min, step);
         marksMap = Object.fromEntries(
           markValues.map((val) => [val, Math.round(val) !== val ? val.toFixed(1) : val.toString()]),
@@ -104,11 +118,15 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
         marksMap = JSON.parse(marks);
         markValues = keys(marksMap).map((key) => Number(key));
       }
+      return [
+        markValues,
+        getMarkRenderer(
+          mapKeys((key) => getProgress(Number(key), min, max) * 100)(marksMap),
+          showOnlyActiveLabel,
+        ),
+      ];
     }
-    return [
-      markValues,
-      getMarkRenderer(mapKeys((key) => getProgress(Number(key), min, max) * 100)(marksMap)),
-    ];
+    return [markValues, undefined];
   }, [marks, max, min, step]);
   const onValueChangeImpl = useAppletStoreBoundFunction('value', onValueChange ?? '');
   const onValueCommitImpl = useAppletStoreBoundFunction('value', onValueCommit ?? '');
