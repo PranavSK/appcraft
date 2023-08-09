@@ -91,42 +91,10 @@ export default {
       gridTemplateColumns: {
         split:
           'minmax(var(--split-min-primary),var(--split-primary)) var(--split-separator) minmax(var(--split-min-secondary), 1fr);',
-        14: 'repeat(14, minmax(0, 1fr))',
-      },
-      gridColumnStart: {
-        13: '13',
-        14: '14',
-        15: '15',
-      },
-      gridColumnEnd: {
-        13: '13',
-        14: '14',
-        15: '15',
       },
       gridTemplateRows: {
         split:
           'minmax(var(--split-min-primary),var(--split-primary)) var(--split-separator) minmax(var(--split-min-secondary), 1fr);',
-        14: 'repeat(14, minmax(0, 1fr))',
-      },
-      gridRowStart: {
-        8: '8',
-        9: '9',
-        10: '10',
-        11: '11',
-        12: '12',
-        13: '13',
-        14: '14',
-        15: '15',
-      },
-      gridRowEnd: {
-        8: '8',
-        9: '9',
-        10: '10',
-        11: '11',
-        12: '12',
-        13: '13',
-        14: '14',
-        15: '15',
       },
       width: {
         'split-separator': 'var(--split-separator)',

@@ -15,7 +15,7 @@ export const Footer: FC = () => {
   );
   if (!hasChildren) return null;
   return (
-    <div className="mx-8 mb-8 flex items-center justify-center gap-5">
+    <div className="m-5 flex items-center justify-center gap-5">
       <ChildrenNode id={'footer'} />
     </div>
   );
