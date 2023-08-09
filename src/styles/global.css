@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Urbanist&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&display=swap');
 @import 'katex/dist/katex.min.css';
 
 @tailwind base;
@@ -79,6 +79,16 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* This is too make sure the browsers don't create their own variations for the fonts.
+    But we will need to include all the weights and styles needed. */
+    font-synthesis: none;
+  }
+
+  /* See - https://stackoverflow.com/questions/3226001/some-font-sizes-rendered-larger-on-safari-iphone */
+  @media screen and (max-device-width: 480px) {
+    body {
+      -webkit-text-size-adjust: 100%;
+    }
   }
 }
 

@@ -37,8 +37,8 @@ export const Preview: FC<AppletProps> = (props) => {
   const breakpoint = useAtomValue(breakpointAtom, { store: getDefaultStore() });
 
   return (
-    <ScrollArea className="h-screen p-1">
-      <div className="mx-auto box-border" style={containerStyles[breakpoint]}>
+    <ScrollArea className="h-screen">
+      <div className="mx-auto box-border p-1" style={containerStyles[breakpoint]}>
         <Applet {...{ ...props, overrideBreakpoint: breakpoint }} />
       </div>
       <ScrollBar orientation="horizontal" />

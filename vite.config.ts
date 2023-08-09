@@ -1,4 +1,5 @@
 import react from '@vitejs/plugin-react-swc';
+import vConsolePlugin from 'vite-plugin-simple-vconsole';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 
@@ -12,6 +13,9 @@ export default defineConfig({
       // ],
     }),
     tsconfigPaths(),
+    vConsolePlugin({
+      enable: true,
+    }),
   ],
   base: './',
   test: {
