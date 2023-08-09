@@ -41,6 +41,28 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
       <form onSubmit={form.handleSubmit(setState)} className="space-y-4">
         <FormField
           control={form.control}
+          name="variant"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Variant</FormLabel>
+              <Select value={field.value} onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select variant" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="default">Default</SelectItem>
+                  <SelectItem value="outline">Outline</SelectItem>
+                </SelectContent>
+                <FormDescription>Select the button variant</FormDescription>
+                <FormMessage />
+              </Select>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="icon"
           render={({ field }) => (
             <FormItem>
@@ -82,7 +104,7 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
           name="onClick"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>On Value Change</FormLabel>
+              <FormLabel>On Click</FormLabel>
               <FormControl>
                 <Textarea className="font-mono" placeholder="Enter javascript" {...field} />
               </FormControl>
