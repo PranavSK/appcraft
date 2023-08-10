@@ -14,7 +14,7 @@ export default defineConfig({
     }),
     tsconfigPaths(),
     vConsolePlugin({
-      enable: true,
+      enable: false,
     }),
   ],
   base: './',
