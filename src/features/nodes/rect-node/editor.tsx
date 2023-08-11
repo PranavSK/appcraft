@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAtom } from 'jotai';
 import { type FC } from 'react';
 import { useForm } from 'react-hook-form';
+import { merge } from 'remeda';
 
 import { EditGridFields } from '#/features/nodes/common';
 import { Button } from '#/features/ui/button';
@@ -18,14 +19,14 @@ import {
 import { Input } from '#/features/ui/input';
 
 import { NodePropertyEditorProps } from '../node.types';
-import { type RectState, schema } from './data';
+import { defaultState, type RectState, schema } from './data';
 import { nodeStateAtomFamily } from './store';
 
 export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
   const [state, setState] = useAtom(nodeStateAtomFamily(id));
   const form = useForm<RectState>({
     resolver: zodResolver(schema),
-    values: state,
+    values: merge(defaultState, state),
   });
 
   return (
@@ -47,20 +48,22 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="fillColor"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Fill Color</FormLabel>
-              <FormControl>
-                <Input type="color" {...field} />
-              </FormControl>
-              <FormDescription>Enter the fill color.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {form.watch('showFill') && (
+          <FormField
+            control={form.control}
+            name="fillColor"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Fill Color</FormLabel>
+                <FormControl>
+                  <Input type="color" {...field} />
+                </FormControl>
+                <FormDescription>Enter the fill color.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <FormField
           control={form.control}
           name="showBorder"
@@ -77,20 +80,22 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="borderColor"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Border Color</FormLabel>
-              <FormControl>
-                <Input type="color" {...field} />
-              </FormControl>
-              <FormDescription>Enter the border color.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {form.watch('showBorder') && (
+          <FormField
+            control={form.control}
+            name="borderColor"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Border Color</FormLabel>
+                <FormControl>
+                  <Input type="color" {...field} />
+                </FormControl>
+                <FormDescription>Enter the border color.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <EditGridFields control={form.control} />
         <Button type="submit">Submit</Button>
       </form>

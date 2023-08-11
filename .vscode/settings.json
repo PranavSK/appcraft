@@ -19,5 +19,6 @@
   "vitest.commandLine": "pnpm run test",
   "vite.buildCommand": "pnpm run build",
   "vite.devCommand": "pnpm run dev",
-  "vite.port": 3000
+  "vite.port": 3000,
+  "editor.rulers": [100]
 }

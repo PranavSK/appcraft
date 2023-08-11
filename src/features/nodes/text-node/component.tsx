@@ -9,7 +9,7 @@ import { nodeStateAtomFamily } from './store';
 
 export const Component: FC<NodeProps> = ({ id, className }) => {
   const [isLast, setIsLast] = useState(false);
-  const { text, ...state } = useAtomValue(nodeStateAtomFamily(id));
+  const { text, color, highlight, highlightColor } = useAtomValue(nodeStateAtomFamily(id));
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -22,7 +22,8 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
     <Text
       className={cn(className, 'text-xl')}
       text={isLast ? preventRunts(text) : text}
-      {...state}
+      color={color}
+      highlightColor={highlight ? highlightColor : undefined}
       ref={ref}
     />
   );

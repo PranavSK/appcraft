@@ -13,7 +13,7 @@ import { cn } from '#/lib/utils';
 import type { NodeProps } from '../node.types';
 import { sliderFamily, valueFamily } from './store';
 
-const markVariants = cva('absolute z-10 rounded-full bg-primary/60', {
+const markVariants = cva('absolute z-10 rounded-full bg-[#646464]', {
   variants: {
     orientation: {
       horizontal: 'top-1 h-2 w-[0.125rem]',

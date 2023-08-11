@@ -20,3 +20,10 @@ export const WithColor = {
     color: 'red',
   },
 } satisfies Story;
+
+export const WithHighlightColor = {
+  args: {
+    text: 'Hello World',
+    highlightColor: 'yellow',
+  },
+} satisfies Story;

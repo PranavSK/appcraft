@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAtom } from 'jotai';
 import { type FC } from 'react';
 import { useForm } from 'react-hook-form';
+import { merge } from 'remeda';
 
 import { AboutCode } from '#/features/nodes/common';
 import { EditGridFields } from '#/features/nodes/common';
@@ -20,14 +21,14 @@ import { Separator } from '#/features/ui/separator';
 import { Textarea } from '#/features/ui/textarea';
 
 import { NodePropertyEditorProps } from '../node.types';
-import { schema, type SliderState } from './data';
+import { defaultState, schema, type SliderState } from './data';
 import { nodeStateAtomFamily } from './store';
 
 export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
   const [state, setState] = useAtom(nodeStateAtomFamily(id));
   const form = useForm<SliderState>({
     resolver: zodResolver(schema),
-    values: state,
+    values: merge(defaultState, state),
   });
 
   return (

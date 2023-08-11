@@ -130,7 +130,12 @@ export const Applet: FC<AppletProps> = ({
   }, [initialState]);
 
   return (
-    <Card data-testid="applet" className="box-border flex h-full flex-col" style={style} ref={ref}>
+    <Card
+      data-testid="applet"
+      className="box-border flex h-full flex-col border-[#f6f6f6] text-[#212121]"
+      style={style}
+      ref={ref}
+    >
       <Provider store={store}>
         <Suspense>
           <HydrateAppletAtoms nodesData={nodesData} />

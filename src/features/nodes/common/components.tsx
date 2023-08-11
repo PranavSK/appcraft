@@ -60,7 +60,7 @@ const ChildNode: FC<{ id: string }> = ({ id }) => {
       <Suspense>
         <Component
           id={id}
-          className={cn(isSelected && 'rounded-sm outline-dashed outline-1 outline-primary/50')}
+          className={cn(isSelected && 'rounded-sm outline-dashed outline-1 outline-teal-200/50')}
         />
       </Suspense>
     )

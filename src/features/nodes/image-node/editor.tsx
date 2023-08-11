@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAtom } from 'jotai';
 import { type FC } from 'react';
 import { useForm } from 'react-hook-form';
+import { merge } from 'remeda';
 
 import { Button } from '#/features/ui/button';
 import {
@@ -16,14 +17,14 @@ import {
 import { Input } from '#/features/ui/input';
 
 import { NodePropertyEditorProps } from '../node.types';
-import { imageSchema, type ImageState } from './data';
+import { defaultState, imageSchema, type ImageState } from './data';
 import { nodeStateAtomFamily } from './store';
 
 export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
   const [state, setState] = useAtom(nodeStateAtomFamily(id));
   const form = useForm<ImageState>({
     resolver: zodResolver(imageSchema),
-    values: state,
+    values: merge(defaultState, state),
   });
 
   return (

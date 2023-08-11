@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAtom } from 'jotai';
 import { type FC } from 'react';
 import { useForm } from 'react-hook-form';
+import { merge } from 'remeda';
 
 import { Button } from '#/features/ui/button';
 import {
@@ -26,14 +27,14 @@ import { Textarea } from '#/features/ui/textarea';
 
 import { AboutCode } from '../common';
 import { NodePropertyEditorProps } from '../node.types';
-import { type CtaState, iconTypes, schema } from './data';
+import { type CtaState, defaultState, iconTypes, schema } from './data';
 import { nodeStateAtomFamily } from './store';
 
 export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
   const [state, setState] = useAtom(nodeStateAtomFamily(id));
   const form = useForm<CtaState>({
     resolver: zodResolver(schema),
-    values: state,
+    values: merge(defaultState, state),
   });
 
   return (

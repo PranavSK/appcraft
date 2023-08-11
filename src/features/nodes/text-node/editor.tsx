@@ -1,9 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAtom } from 'jotai';
-import { type CSSProperties, type FC } from 'react';
+import { type FC } from 'react';
 import { useForm } from 'react-hook-form';
+import { merge } from 'remeda';
 
 import { Button } from '#/features/ui/button';
+import { Checkbox } from '#/features/ui/checkbox';
 import {
   Form,
   FormControl,
@@ -16,25 +18,15 @@ import {
 import { Input } from '#/features/ui/input';
 
 import { NodePropertyEditorProps } from '../node.types';
-import { textSchema, type TextState } from './data';
+import { defaultState, textSchema, type TextState } from './data';
 import { nodeStateAtomFamily } from './store';
-
-interface CustomStyle extends CSSProperties {
-  '--editor-color-input': string;
-}
-
-function getCustomStyle(color: string | undefined): CustomStyle {
-  return {
-    '--editor-color-input': color ?? '#000000',
-  };
-}
 
 export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
   const [state, setState] = useAtom(nodeStateAtomFamily(id));
 
   const form = useForm<TextState>({
     resolver: zodResolver(textSchema),
-    values: state,
+    values: merge(defaultState, state),
   });
 
   return (
@@ -61,26 +53,45 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
             <FormItem>
               <FormLabel>Color</FormLabel>
               <FormControl>
-                <Input placeholder="#000000" {...field} />
+                <Input type="color" {...field} />
               </FormControl>
-              <FormDescription>
-                [Optional]{' '}
-                {field.value == null ? (
-                  <span>Enter the text color.</span>
-                ) : (
-                  <>
-                    Selected text color:
-                    <span
-                      style={getCustomStyle(field.value)}
-                      className="mx-2 inline-block h-6 w-6 translate-y-1 rounded-md bg-[_var(--editor-color-input)]"
-                    />
-                  </>
-                )}
-              </FormDescription>
+              <FormDescription>Enter the text color.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="highlight"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4">
+              <FormControl>
+                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel>Highlight</FormLabel>
+                <FormDescription>Check to highlight this text node.</FormDescription>
+                <FormMessage />
+              </div>
+            </FormItem>
+          )}
+        />
+        {form.watch('highlight') && (
+          <FormField
+            control={form.control}
+            name="highlightColor"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Highlight Color</FormLabel>
+                <FormControl>
+                  <Input type="color" {...field} />
+                </FormControl>
+                <FormDescription>Enter the text highlight color.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <Button type="submit">Submit</Button>
       </form>
     </Form>
