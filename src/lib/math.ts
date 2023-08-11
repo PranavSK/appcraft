@@ -51,10 +51,14 @@ export function range(n: number): Array<number>;
 export function range(n: number, start: number): Array<number>;
 export function range(n: number, start: number, step: number): Array<number>;
 export function range(n: number, start = 0, step = 1) {
+  const stepPrecision = step.toString().split('.')[1]?.length ?? 0;
   const arr = new Array<number>();
   if (step === 0) return arr;
-  for (let i = start; i < n; i += step) {
+  let i = start;
+  while (i < n) {
     arr.push(i);
+    i += step;
+    i = parseFloat(i.toFixed(stepPrecision));
   }
   arr.push(n);
   return arr;
