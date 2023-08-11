@@ -2,6 +2,7 @@ import { atom, useAtomValue } from 'jotai';
 import { selectAtom } from 'jotai/utils';
 import { type FC, Suspense, useCallback, useMemo } from 'react';
 import type { Control, FieldValues, Path } from 'react-hook-form';
+import { filter } from 'remeda';
 
 import { appletLayoutAtom } from '#/features/applet/applet.store';
 import { selectedNodeAtom } from '#/features/editor/editor.store';
@@ -20,7 +21,7 @@ import { getNodeComponent } from '../components';
 import { nodeStateAtomFamily as groupNodeStateAtomFamily } from '../group-node';
 import { GridState } from './data';
 
-function useChildNode(id: string) {
+function useNode(id: string) {
   const selectedAtom = selectAtom(
     appletLayoutAtom,
     useCallback((state) => state[id], [id]),
@@ -52,7 +53,7 @@ const ChildNode: FC<{ id: string }> = ({ id }) => {
       useCallback((state) => state.id === id, [id]),
     ),
   );
-  const { type, isActive } = useChildNode(id);
+  const { type, isActive } = useNode(id);
   const Component = getNodeComponent(type);
 
   return (
@@ -67,13 +68,24 @@ const ChildNode: FC<{ id: string }> = ({ id }) => {
   );
 };
 
-export const ChildrenNode: FC<{ id: string }> = ({ id }) => {
-  const children = useAtomValue(
-    selectAtom(
-      appletLayoutAtom,
-      useCallback((state) => state[id].children, [id]),
+function useSlotChildren(id: string, slot?: string) {
+  const selectedAtom = selectAtom(
+    appletLayoutAtom,
+    useCallback(
+      (state) => {
+        const children = state[id].children;
+        if (slot == null) return children;
+        return filter(children, (child) => state[child].type === slot);
+      },
+      [id, slot],
     ),
   );
+
+  return useAtomValue(selectedAtom);
+}
+
+export const ChildrenNode: FC<{ id: string; slot?: string }> = ({ id, slot }) => {
+  const children = useSlotChildren(id, slot);
 
   return (
     <>

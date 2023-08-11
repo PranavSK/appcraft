@@ -1,15 +1,12 @@
 import type { Root } from '@radix-ui/react-slider';
-import type { ComponentPropsWithoutRef, ComponentType } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 
 import type { sizeOpts } from './slider.variants';
 
-export interface MarkProps {
-  mark: number;
-  isCurrent?: boolean;
-  size?: SliderProps['size'];
-  orientation?: SliderProps['orientation'];
+export interface MarkProps extends Pick<SliderProps, 'max' | 'min' | 'step' | 'orientation'> {
+  currentProgress?: number;
   start: 'left' | 'right' | 'top' | 'bottom';
-  offset: number;
+  getOffset: (progress: number) => number;
   transformType: 'translateX' | 'translateY';
   isNegativeTransform: boolean;
 }
@@ -21,10 +18,8 @@ export interface SliderProps
   > {
   showFill?: boolean;
   size: (typeof sizeOpts)[number];
-  marks?: number[];
   value?: number;
   defaultValue?: number;
   onValueChange?: (value: number) => void;
   onValueCommit?: (value: number) => void;
-  markRenderer?: ComponentType<MarkProps>;
 }

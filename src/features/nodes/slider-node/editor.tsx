@@ -36,14 +36,14 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
       <form onSubmit={form.handleSubmit(setState)} className="space-y-4">
         <FormField
           control={form.control}
-          name="value"
+          name="defaultValue"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Value</FormLabel>
+              <FormLabel>Default Value</FormLabel>
               <FormControl>
                 <Input placeholder="0" {...field} />
               </FormControl>
-              <FormDescription>Current value of the slider.</FormDescription>
+              <FormDescription>Default value of the slider.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -86,24 +86,6 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
                 <Input placeholder="1" {...field} />
               </FormControl>
               <FormDescription>Step value of the slider.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="marks"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Marks</FormLabel>
-              <FormControl>
-                <Textarea className="font-mono" placeholder="Enter JSON or all" {...field} />
-              </FormControl>
-              <FormDescription>
-                Enter a JSON object with keys as positions and values as the mark label. Enter{' '}
-                <strong>active</strong> to show all marks with only the active mark label. Enter{' '}
-                <strong>all</strong> to show the entire range. Leave empty to show no marks.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

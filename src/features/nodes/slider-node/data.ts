@@ -2,15 +2,13 @@ import * as z from 'zod';
 
 import { gridSchema } from '#/features/nodes/common';
 
-export const childrenTypes = ['text', 'latex', 'image'] as const;
-const marksSchema = z.record(z.coerce.number(), z.string());
+export const childrenTypes = ['slider-label', 'slider-mark'] as const;
 export const schema = gridSchema
   .extend({
-    value: z.coerce.number(),
+    defaultValue: z.coerce.number(),
     min: z.coerce.number(),
     max: z.coerce.number(),
     step: z.coerce.number(),
-    marks: z.string().optional(),
     onValueChange: z.string().optional(),
     onValueCommit: z.string().optional(),
   })
@@ -35,7 +33,7 @@ export const schema = gridSchema
       });
     }
 
-    if (data.value < data.min || data.value > data.max) {
+    if (data.defaultValue < data.min || data.defaultValue > data.max) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Value must be between min and max',
@@ -50,37 +48,10 @@ export const schema = gridSchema
         path: ['step'],
       });
     }
-
-    if (
-      data.marks &&
-      data.marks.toLowerCase() !== 'all' &&
-      data.marks.toLowerCase() !== 'active' &&
-      data.marks !== ''
-    ) {
-      try {
-        const json = JSON.parse(data.marks);
-        marksSchema.parse(json);
-      } catch (e) {
-        if (e instanceof z.ZodError) {
-          for (const issue of e.issues) {
-            ctx.addIssue({
-              ...issue,
-              path: ['marks', ...issue.path],
-            });
-          }
-        }
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Marks must be valid JSON or 'all' or empty.",
-          path: ['marks'],
-        });
-      }
-    }
   });
-export type SliderMarksState = z.infer<typeof marksSchema>;
 export type SliderState = z.infer<typeof schema>;
 export const defaultState: SliderState = {
-  value: 0,
+  defaultValue: 0,
   min: 0,
   max: 1,
   step: 0.1,
@@ -88,5 +59,4 @@ export const defaultState: SliderState = {
   rowEnd: 14,
   columnStart: 1,
   columnEnd: 13,
-  marks: 'all',
 };

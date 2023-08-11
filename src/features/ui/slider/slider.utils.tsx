@@ -1,32 +1,7 @@
-import { type FC } from 'react';
-import { filter, map, pipe } from 'remeda';
+import { getProgress } from '#/lib/math';
 
-import { approxeq, getProgress } from '#/lib/math';
-import { cn } from '#/lib/utils';
-
+import { SliderMarkContextProvider } from './slider.context';
 import type { MarkProps, SliderProps } from './slider.types';
-import { markVariants } from './slider.variants';
-
-const DefaultMark: FC<MarkProps> = ({
-  mark,
-  size,
-  orientation,
-  start,
-  offset,
-  transformType,
-  isNegativeTransform,
-}) => {
-  return (
-    <div
-      key={mark}
-      className={cn(size === 'lg' && markVariants({ orientation }))}
-      style={{
-        [start]: `calc(${mark}% + ${offset}px)`,
-        transform: `${transformType}(${isNegativeTransform ? '-' : ''}50%)`,
-      }}
-    />
-  );
-};
 
 function getThumbOffset(width: number, position: number, direction: number) {
   // Width of the thumb by max range - 100%
@@ -38,10 +13,10 @@ function getThumbOffset(width: number, position: number, direction: number) {
 export const Marks = (
   props: Pick<
     SliderProps,
-    'orientation' | 'inverted' | 'dir' | 'min' | 'max' | 'marks' | 'markRenderer'
+    'orientation' | 'inverted' | 'dir' | 'min' | 'max' | 'step' | 'children'
   > & {
-    thumbSize?: number;
     currentValue?: number;
+    thumbSize?: number;
   },
 ) => {
   const isSlidingFromBottom = !props.inverted;
@@ -70,27 +45,27 @@ export const Marks = (
       isNegativeTransform = false;
     }
   }
-  const { max = 100, min = 0 } = props;
-  const currentMark = getProgress(props.currentValue ?? 0, min, max) * 100;
-  const Mark = props.markRenderer ?? DefaultMark;
-  const marks = pipe(
-    props.marks ?? [],
-    filter((mark) => mark >= min && mark <= max),
-    map((mark) => getProgress(mark, min, max) * 100),
-    map((mark) => (
-      <Mark
-        key={mark}
-        {...{
-          ...props,
-          isCurrent: props.currentValue != null && approxeq(mark, currentMark),
-          mark,
-          start,
-          offset: getThumbOffset(props.thumbSize ?? 0, mark, 1),
-          transformType,
-          isNegativeTransform,
-        }}
-      />
-    )),
+  const { max = 100, min = 0, step, orientation, currentValue } = props;
+  const currentMark = getProgress(currentValue ?? 0, min, max) * 100;
+  const getOffset = (mark: number) => {
+    return getThumbOffset(props.thumbSize ?? 0, mark, 1);
+  };
+
+  return (
+    <SliderMarkContextProvider
+      value={{
+        max,
+        min,
+        step,
+        currentProgress: currentMark,
+        orientation,
+        start,
+        getOffset,
+        transformType,
+        isNegativeTransform,
+      }}
+    >
+      {props.children}
+    </SliderMarkContextProvider>
   );
-  return <>{marks}</>;
 };
