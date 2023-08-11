@@ -48,7 +48,7 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
               <FormLabel>Variant</FormLabel>
               <Select value={field.value} onValueChange={field.onChange}>
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-background">
                     <SelectValue placeholder="Select variant" />
                   </SelectTrigger>
                 </FormControl>
@@ -56,9 +56,9 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
                   <SelectItem value="default">Default</SelectItem>
                   <SelectItem value="outline">Outline</SelectItem>
                 </SelectContent>
-                <FormDescription>Select the button variant</FormDescription>
-                <FormMessage />
               </Select>
+              <FormDescription>Select the button variant</FormDescription>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -70,7 +70,7 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
               <FormLabel>Icon</FormLabel>
               <Select value={field.value} onValueChange={field.onChange}>
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-background">
                     <SelectValue placeholder="Select icon" />
                   </SelectTrigger>
                 </FormControl>
