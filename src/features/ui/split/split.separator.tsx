@@ -1,8 +1,6 @@
 import { GripHorizontal, GripVertical } from 'lucide-react';
 import { forwardRef, type HTMLAttributes, type PointerEventHandler, useState } from 'react';
 
-import { cn } from '#/lib/utils';
-
 import { useSplitContext } from './split.context';
 import { splitSeparatorHandleVariants, splitSeparatorVariants } from './split.variants';
 
@@ -40,7 +38,7 @@ export const SplitSeparator = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivE
 
     return (
       <div
-        className={cn(className, splitSeparatorVariants({ orientation }))}
+        className={splitSeparatorVariants({ orientation, className })}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}

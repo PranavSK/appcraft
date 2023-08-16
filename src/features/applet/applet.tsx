@@ -1,4 +1,4 @@
-import { getDefaultStore, Provider, useStore } from 'jotai';
+import { getDefaultStore, Provider, useSetAtom, useStore } from 'jotai';
 import { useHydrateAtoms } from 'jotai/utils';
 import { type FC, Suspense, useEffect, useMemo } from 'react';
 import { filter, fromPairs, keys, map, pick, pipe } from 'remeda';
@@ -9,7 +9,7 @@ import { useContainerResponsive } from '#/hooks/use-container-responsive';
 import { mapToClosestBreakpoint } from '#/lib/breakpoint';
 import { useClearHistory } from '#/lib/jotai';
 
-import { appletLayoutAtom, getResponsiveStore } from './applet.store';
+import { appletFontSizeAtom, appletLayoutAtom, getResponsiveStore } from './applet.store';
 import type { AppletProps, AppletState } from './applet.types';
 import { Footer } from './footer';
 import { Grid } from './grid';
@@ -121,6 +121,8 @@ export const Applet: FC<AppletProps> = ({
     [containerWidth],
   );
 
+  const setAppletFontSize = useSetAtom(appletFontSizeAtom);
+
   useEffect(() => {
     const availableBreakpoints = keys.strict(initialState);
     for (const bp of availableBreakpoints) {
@@ -128,6 +130,10 @@ export const Applet: FC<AppletProps> = ({
       getResponsiveStore(bp);
     }
   }, [initialState]);
+
+  useEffect(() => {
+    setAppletFontSize(style);
+  }, [setAppletFontSize, style]);
 
   return (
     <Card

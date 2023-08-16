@@ -2,7 +2,7 @@ import { useAtomValue } from 'jotai';
 import { type FC, useCallback } from 'react';
 
 import { useAppletStoreBoundFunction } from '#/features/applet/applet.store';
-import { ChildrenNode } from '#/features/nodes/common';
+import { ChildrenNode } from '#/features/nodes/common/components';
 import { Slider } from '#/features/ui/slider';
 import { Widget } from '#/features/ui/widget';
 import { cn } from '#/lib/utils';

@@ -112,3 +112,5 @@ function cleanup() {
 }
 
 getDefaultStore().sub(appletIdAtom, cleanup);
+
+export const appletFontSizeAtom = atom<{ fontSize: string }>({ fontSize: '16px' });

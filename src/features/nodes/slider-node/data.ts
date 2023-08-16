@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-import { gridSchema } from '#/features/nodes/common';
+import { gridSchema } from '#/features/nodes/common/data';
 
 export const childrenTypes = ['slider-label', 'slider-mark'] as const;
 export const schema = gridSchema

@@ -1,9 +1,14 @@
-import { gridSchema, type GridState } from '#/features/nodes/common';
+import { z } from 'zod';
 
-export const childrenTypes = ['text', 'latex', 'image'] as const;
-export const schema = gridSchema;
-export type ParagraphState = GridState;
+import { gridSchema } from '#/features/nodes/common/data';
+
+export const childrenTypes = ['text', 'latex', 'image', 'option'] as const;
+export const schema = gridSchema.extend({
+  textAlign: z.enum(['left', 'center', 'right']),
+});
+export type ParagraphState = z.infer<typeof schema>;
 export const defaultState: ParagraphState = {
+  textAlign: 'left',
   rowStart: 0,
   rowEnd: 1,
   columnStart: 0,

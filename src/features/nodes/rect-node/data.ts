@@ -1,8 +1,7 @@
 import * as z from 'zod';
 
+import { gridSchema } from '#/features/nodes/common/data';
 import { hexColor } from '#/lib/zod';
-
-import { gridSchema } from '../common';
 export const schema = gridSchema.extend({
   showFill: z.boolean(),
   fillColor: hexColor,

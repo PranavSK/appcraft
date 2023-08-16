@@ -4,8 +4,7 @@ import { type FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { merge } from 'remeda';
 
-import { AboutCode } from '#/features/nodes/common';
-import { EditGridFields } from '#/features/nodes/common';
+import { AboutCode, EditGridFields } from '#/features/nodes/common/components';
 import { Button } from '#/features/ui/button';
 import {
   Form,

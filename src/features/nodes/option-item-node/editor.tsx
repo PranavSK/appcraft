@@ -4,7 +4,6 @@ import { type FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { merge } from 'remeda';
 
-import { EditGridFields } from '#/features/nodes/common/components';
 import { Button } from '#/features/ui/button';
 import {
   Form,
@@ -16,15 +15,14 @@ import {
   FormMessage,
 } from '#/features/ui/form';
 import { Input } from '#/features/ui/input';
-import { Separator } from '#/features/ui/separator';
 
 import { NodePropertyEditorProps } from '../node.types';
-import { defaultState, type GeogebraState, schema } from './data';
+import { defaultState, type OptionItemState, schema } from './data';
 import { nodeStateAtomFamily } from './store';
 
 export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
   const [state, setState] = useAtom(nodeStateAtomFamily(id));
-  const form = useForm<GeogebraState>({
+  const form = useForm<OptionItemState>({
     resolver: zodResolver(schema),
     values: merge(defaultState, state),
   });
@@ -34,20 +32,34 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
       <form onSubmit={form.handleSubmit(setState)} className="space-y-4">
         <FormField
           control={form.control}
-          name="materialId"
+          name="value"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Material Id</FormLabel>
+              <FormLabel>Value</FormLabel>
               <FormControl>
-                <Input placeholder="sample" {...field} />
+                <Input placeholder="value" {...field} />
               </FormControl>
-              <FormDescription>Enter the Geogebra material id.</FormDescription>
+              <FormDescription>Enter the item value.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Separator />
-        <EditGridFields control={form.control} />
+        <FormField
+          control={form.control}
+          name="text"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Text</FormLabel>
+              <FormControl>
+                <Input placeholder="textValue" {...field} />
+              </FormControl>
+              <FormDescription>
+                Enter the item text. Use children instead if additional customization is required.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button type="submit">Submit</Button>
       </form>
     </Form>

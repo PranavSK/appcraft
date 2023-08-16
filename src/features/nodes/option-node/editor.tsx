@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Separator } from '@radix-ui/react-dropdown-menu';
 import { useAtom } from 'jotai';
 import { type FC } from 'react';
 import { useForm } from 'react-hook-form';
@@ -23,16 +24,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '#/features/ui/select';
-import { Separator } from '#/features/ui/separator';
 import { Textarea } from '#/features/ui/textarea';
 
 import { NodePropertyEditorProps } from '../node.types';
-import { type CtaState, defaultState, iconTypes, schema } from './data';
+import { defaultState, type OptionState, schema } from './data';
 import { nodeStateAtomFamily } from './store';
 
 export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
   const [state, setState] = useAtom(nodeStateAtomFamily(id));
-  const form = useForm<CtaState>({
+  const form = useForm<OptionState>({
     resolver: zodResolver(schema),
     values: merge(defaultState, state),
   });
@@ -42,6 +42,20 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
       <form onSubmit={form.handleSubmit(setState)} className="space-y-4">
         <FormField
           control={form.control}
+          name="defaultValue"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Default Value</FormLabel>
+              <FormControl>
+                <Input placeholder="Default Value" {...field} />
+              </FormControl>
+              <FormDescription>Enter the default value.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="variant"
           render={({ field }) => (
             <FormItem>
@@ -49,52 +63,16 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
               <Select value={field.value} onValueChange={field.onChange}>
                 <FormControl>
                   <SelectTrigger className="bg-background">
-                    <SelectValue placeholder="Select variant" />
+                    <SelectValue placeholder="Select Variant" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   <SelectItem value="default">Default</SelectItem>
-                  <SelectItem value="outline">Outline</SelectItem>
+                  <SelectItem value="success">Success</SelectItem>
+                  <SelectItem value="error">Error</SelectItem>
                 </SelectContent>
               </Select>
-              <FormDescription>Select the button variant</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="icon"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Icon</FormLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger className="bg-background">
-                    <SelectValue placeholder="Select icon" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {iconTypes.map((icon) => (
-                    <SelectItem key={icon} value={icon}>
-                      {icon}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-                <FormDescription>Select the icon for the button</FormDescription>
-                <FormMessage />
-              </Select>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="label"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Label</FormLabel>
-              <Input {...field} />
-              <FormDescription>Enter the button label</FormDescription>
+              <FormDescription>Variant of the select.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -102,15 +80,34 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
         <Separator />
         <FormField
           control={form.control}
-          name="onClick"
+          name="onValueChange"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>On Click</FormLabel>
+              <FormLabel>On Value Change</FormLabel>
               <FormControl>
                 <Textarea className="font-mono" placeholder="Enter javascript" {...field} />
               </FormControl>
               <FormDescription>
-                Enter javascript code that is run on click.
+                Enter javascript code that is run on selected value change. The new value is
+                available via the variable <code>value</code>.
+                <AboutCode />
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="onOpenChange"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>On Open Change</FormLabel>
+              <FormControl>
+                <Textarea className="font-mono" placeholder="Enter javascript" {...field} />
+              </FormControl>
+              <FormDescription>
+                Enter javascript code that is run once the popup state changes. The new state is
+                available via the variable <code>open</code>.
                 <AboutCode />
               </FormDescription>
               <FormMessage />

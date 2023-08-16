@@ -2,7 +2,7 @@ import { useAtomValue } from 'jotai';
 import { selectAtom } from 'jotai/utils';
 import { FC, useCallback } from 'react';
 
-import { ChildrenNode } from '#/features/nodes/common';
+import { ChildrenNode } from '#/features/nodes/common/components';
 
 import { appletLayoutAtom } from '../applet.store';
 

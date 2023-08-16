@@ -2,11 +2,11 @@ import { cva } from 'class-variance-authority';
 import { useAtomValue } from 'jotai';
 import { type FC, ReactNode } from 'react';
 
+import { ChildrenNode } from '#/features/nodes/common/components';
 import { useSliderMarkContext } from '#/features/ui/slider';
 import { approxeq, getProgress, range } from '#/lib/math';
 import { cn } from '#/lib/utils';
 
-import { ChildrenNode } from '../common';
 import type { NodeProps } from '../node.types';
 import { nodeStateAtomFamily } from './store';
 

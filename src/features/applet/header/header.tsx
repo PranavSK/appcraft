@@ -3,7 +3,7 @@ import { selectAtom } from 'jotai/utils';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { FC, useCallback } from 'react';
 
-import { ChildrenNode } from '#/features/nodes/common';
+import { ChildrenNode } from '#/features/nodes/common/components';
 import { Button } from '#/features/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '#/features/ui/collapsible';
 import { useBoolean } from '#/hooks/use-boolean';

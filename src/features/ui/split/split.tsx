@@ -3,7 +3,6 @@ import { isFunction } from 'remeda';
 
 import { useControllableValue } from '#/hooks/use-controllable-value';
 import { useElementSize } from '#/hooks/use-element-size';
-import { cn } from '#/lib/utils';
 
 import { SplitContextProvider } from './split.context';
 import type { SplitProps } from './split.types';
@@ -65,7 +64,7 @@ export const Split = forwardRef<HTMLDivElement, SplitProps>(
         <div
           data-testid="split"
           style={getCustomStyle(minPrimarySize, minSecondarySize, `${split}%`, separatorSize)}
-          className={cn(className, splitVariants({ orientation }))}
+          className={splitVariants({ orientation, className })}
           ref={(element) => {
             setSizeMeasureRef(element);
             if (forwardedRef) {

@@ -31,7 +31,7 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
   return (
     <Button
       variant={variant}
-      className={cn(className, 'group border-primary text-xl/6')}
+      className={cn(className, 'group h-10 border-primary text-xl')}
       onClick={onClickImpl}
     >
       <Icon icon={icon} />
