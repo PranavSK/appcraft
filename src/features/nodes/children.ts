@@ -7,7 +7,8 @@ const childrenTypes = import.meta.glob<Node['childrenTypes']>('./**-node/index.t
 
 export const getNodeChildrenTypes = (type: string) => {
   if (type === 'header') return ['text', 'latex', 'image'];
-  if (type === 'grid') return ['paragraph', 'slider', 'geogebra', 'rect', 'radio-group'];
+  if (type === 'grid')
+    return ['paragraph', 'slider', 'geogebra', 'rect', 'radio-group', 'checkbox-group'];
   if (type === 'footer') return ['cta'];
   if (type === 'behaviors') return ['group', 'selector'];
   const types = childrenTypes[`./${type}-node/index.ts`];
