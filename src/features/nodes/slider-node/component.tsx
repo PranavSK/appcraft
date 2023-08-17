@@ -1,4 +1,4 @@
-import { useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import { type FC, useCallback } from 'react';
 
 import { useAppletStoreBoundFunction } from '#/features/applet/applet.store';
@@ -11,18 +11,21 @@ import type { NodeProps } from '../node.types';
 import { nodeStateAtomFamily } from './store';
 
 export const Component: FC<NodeProps> = ({ id, className }) => {
-  const {
-    defaultValue,
-    min,
-    max,
-    step,
-    onValueChange,
-    onValueCommit,
-    rowStart,
-    rowEnd,
-    columnStart,
-    columnEnd,
-  } = useAtomValue(nodeStateAtomFamily(id));
+  const [
+    {
+      value,
+      min,
+      max,
+      step,
+      onValueChange,
+      onValueCommit,
+      rowStart,
+      rowEnd,
+      columnStart,
+      columnEnd,
+    },
+    setState,
+  ] = useAtom(nodeStateAtomFamily(id));
 
   const orientation =
     Math.abs(rowEnd - rowStart) > Math.abs(columnEnd - columnStart) ? 'vertical' : 'horizontal';
@@ -32,9 +35,10 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
 
   const handleValueChange = useCallback(
     (value: number) => {
+      setState((state) => ({ ...state, value }));
       onValueChangeImpl(value);
     },
-    [onValueChangeImpl],
+    [onValueChangeImpl, setState],
   );
 
   const handleValueCommit = useCallback(
@@ -50,7 +54,7 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
       className={cn(className, 'flex flex-col items-center justify-around p-2')}
     >
       <Slider
-        defaultValue={defaultValue}
+        value={value}
         min={min}
         max={max}
         step={step}

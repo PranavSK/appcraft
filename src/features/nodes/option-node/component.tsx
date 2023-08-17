@@ -10,9 +10,9 @@ import {
   Viewport,
 } from '@radix-ui/react-select';
 import { cva } from 'class-variance-authority';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { type FC } from 'react';
+import { type FC, useCallback } from 'react';
 
 import { appletFontSizeAtom, useAppletStoreBoundFunction } from '#/features/applet/applet.store';
 import { ChildrenNode } from '#/features/nodes/common/components';
@@ -71,19 +71,36 @@ const triggerIconVariants = cva(['h-4 w-4 rounded-md rounded-l-none'], {
 });
 
 export const Component: FC<NodeProps> = ({ id, className }) => {
-  const { variant, defaultValue, onValueChange, onOpenChange } = useAtomValue(
+  const [{ variant, value, open, onValueChange, onOpenChange }, setState] = useAtom(
     nodeStateAtomFamily(id),
   );
 
   const onValueChangeImpl = useAppletStoreBoundFunction('value', onValueChange ?? '');
   const onOpenChangeImpl = useAppletStoreBoundFunction('open', onOpenChange ?? '');
 
+  const handleValueChange = useCallback(
+    (value: string) => {
+      setState((state) => ({ ...state, value }));
+      onValueChangeImpl(value);
+    },
+    [onValueChangeImpl, setState],
+  );
+
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      setState((state) => ({ ...state, open }));
+      onOpenChangeImpl(open);
+    },
+    [onOpenChangeImpl, setState],
+  );
+
   const style = useAtomValue(appletFontSizeAtom);
   return (
     <Root
-      defaultValue={defaultValue}
-      onValueChange={onValueChangeImpl}
-      onOpenChange={onOpenChangeImpl}
+      value={value}
+      open={open}
+      onValueChange={handleValueChange}
+      onOpenChange={handleOpenChange}
     >
       <Trigger className={triggerOuterContainerVariants({ className, variant })}>
         <div className={triggerInnerContainerVariants({ variant })}>

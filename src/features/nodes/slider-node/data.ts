@@ -5,7 +5,7 @@ import { gridSchema } from '#/features/nodes/common/data';
 export const childrenTypes = ['slider-label', 'slider-mark'] as const;
 export const schema = gridSchema
   .extend({
-    defaultValue: z.coerce.number(),
+    value: z.coerce.number(),
     min: z.coerce.number(),
     max: z.coerce.number(),
     step: z.coerce.number(),
@@ -33,7 +33,7 @@ export const schema = gridSchema
       });
     }
 
-    if (data.defaultValue < data.min || data.defaultValue > data.max) {
+    if (data.value < data.min || data.value > data.max) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Value must be between min and max',
@@ -51,12 +51,12 @@ export const schema = gridSchema
   });
 export type SliderState = z.infer<typeof schema>;
 export const defaultState: SliderState = {
-  defaultValue: 0,
+  value: 0,
   min: 0,
   max: 1,
   step: 0.1,
-  rowStart: 11,
-  rowEnd: 14,
+  rowStart: 5,
+  rowEnd: 6,
   columnStart: 1,
-  columnEnd: 13,
+  columnEnd: 5,
 };

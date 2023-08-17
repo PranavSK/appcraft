@@ -1,6 +1,6 @@
 import { atom, useAtomValue } from 'jotai';
 import { selectAtom } from 'jotai/utils';
-import { type FC, Suspense, useCallback, useMemo } from 'react';
+import { type FC, useCallback, useMemo } from 'react';
 import type { Control, FieldValues, Path } from 'react-hook-form';
 import { filter } from 'remeda';
 
@@ -58,12 +58,10 @@ const ChildNode: FC<{ id: string }> = ({ id }) => {
 
   return (
     isActive && (
-      <Suspense>
-        <Component
-          id={id}
-          className={cn(isSelected && 'rounded-sm outline-dashed outline-1 outline-teal-200/50')}
-        />
-      </Suspense>
+      <Component
+        id={id}
+        className={cn(isSelected && 'rounded-sm outline-dashed outline-1 outline-teal-200/50')}
+      />
     )
   );
 };

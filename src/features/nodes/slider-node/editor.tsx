@@ -35,14 +35,14 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
       <form onSubmit={form.handleSubmit(setState)} className="space-y-4">
         <FormField
           control={form.control}
-          name="defaultValue"
+          name="value"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Default Value</FormLabel>
+              <FormLabel>Value</FormLabel>
               <FormControl>
                 <Input placeholder="0" {...field} />
               </FormControl>
-              <FormDescription>Default value of the slider.</FormDescription>
+              <FormDescription>Current value of the slider.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

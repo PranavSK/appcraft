@@ -13,8 +13,8 @@ export interface GeogebraState extends z.infer<typeof schema> {
 export const defaultState: GeogebraState = {
   materialId: 'jusnnrwa',
   api: null,
-  rowStart: 2,
-  rowEnd: 12,
+  rowStart: 1,
+  rowEnd: 5,
   columnStart: 0,
-  columnEnd: 14,
+  columnEnd: 6,
 };

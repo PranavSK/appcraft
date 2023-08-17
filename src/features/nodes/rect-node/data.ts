@@ -11,9 +11,9 @@ export const schema = gridSchema.extend({
 export type RectState = z.infer<typeof schema>;
 export const defaultState: RectState = {
   rowStart: 0,
-  rowEnd: 10,
+  rowEnd: 6,
   columnStart: 0,
-  columnEnd: 14,
+  columnEnd: 6,
   showFill: true,
   fillColor: '#E7FBFF',
   showBorder: false,

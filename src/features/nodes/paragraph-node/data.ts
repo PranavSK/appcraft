@@ -12,5 +12,5 @@ export const defaultState: ParagraphState = {
   rowStart: 0,
   rowEnd: 1,
   columnStart: 0,
-  columnEnd: 7,
+  columnEnd: 6,
 };

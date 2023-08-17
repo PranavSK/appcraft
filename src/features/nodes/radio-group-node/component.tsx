@@ -1,7 +1,7 @@
 import { Root } from '@radix-ui/react-radio-group';
 import { cva } from 'class-variance-authority';
-import { useAtomValue } from 'jotai';
-import { type FC } from 'react';
+import { useAtom } from 'jotai';
+import { type FC, useCallback } from 'react';
 
 import { useAppletStoreBoundFunction } from '#/features/applet/applet.store';
 import { ChildrenNode } from '#/features/nodes/common/components';
@@ -23,20 +23,23 @@ const containerVariants = cva('flex items-center justify-center', {
 });
 
 export const Component: FC<NodeProps> = ({ id, className }) => {
-  const { defaultValue, onValueChange, rowStart, rowEnd, columnStart, columnEnd } = useAtomValue(
+  const [{ value, onValueChange, rowStart, rowEnd, columnStart, columnEnd }, setState] = useAtom(
     nodeStateAtomFamily(id),
   );
 
   const orientation = rowEnd - rowStart > columnEnd - columnStart ? 'vertical' : 'horizontal';
 
-  const onValuseChangeImpl = useAppletStoreBoundFunction('value', onValueChange ?? '');
+  const onValueChangeImpl = useAppletStoreBoundFunction('value', onValueChange ?? '');
+  const handleValueChange = useCallback(
+    (value: string) => {
+      setState((state) => ({ ...state, value }));
+      onValueChangeImpl(value);
+    },
+    [onValueChangeImpl, setState],
+  );
+
   return (
-    <Root
-      defaultValue={defaultValue}
-      onValueChange={onValuseChangeImpl}
-      orientation={orientation}
-      asChild
-    >
+    <Root value={value} onValueChange={handleValueChange} orientation={orientation} asChild>
       <Widget
         className={containerVariants({ className, orientation })}
         {...{ rowStart, rowEnd, columnStart, columnEnd }}

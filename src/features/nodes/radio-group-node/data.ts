@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 import { gridSchema } from '#/features/nodes/common/data';
 export const schema = gridSchema.extend({
-  defaultValue: z.coerce.string().optional(),
+  value: z.coerce.string().optional(),
   onValueChange: z.string().optional(),
 });
 export type RadioGroupState = z.infer<typeof schema>;
