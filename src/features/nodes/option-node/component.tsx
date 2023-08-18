@@ -33,6 +33,7 @@ const triggerOuterContainerVariants = cva(
         default: 'border-[#1a1a1a]',
         success: 'border-[#6CA621]',
         error: 'border-[#CC6666]',
+        disabled: 'border-[#1a1a1a]',
       },
     },
     defaultVariants: {
@@ -46,9 +47,10 @@ const triggerInnerContainerVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-transparent',
+        default: '',
         success: 'bg-[#F0FFF4] text-[#6CA621]',
         error: 'bg-[#FFF2F2] text-[#CC6666]',
+        disabled: '',
       },
     },
     defaultVariants: {
@@ -60,9 +62,10 @@ const triggerInnerContainerVariants = cva(
 const triggerIconVariants = cva(['h-4 w-4 rounded-md rounded-l-none'], {
   variants: {
     variant: {
-      default: 'text-primary',
+      default: 'text-[#212121]',
       success: 'text-[#6CA621]',
       error: 'text-[#CC6666]',
+      disabled: 'text-[#212121]',
     },
   },
   defaultVariants: {
@@ -101,6 +104,7 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
       open={open}
       onValueChange={handleValueChange}
       onOpenChange={handleOpenChange}
+      disabled={variant === 'disabled'}
     >
       <Trigger className={triggerOuterContainerVariants({ className, variant })}>
         <div className={triggerInnerContainerVariants({ variant })}>

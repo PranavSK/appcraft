@@ -118,6 +118,20 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="interval"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Interval</FormLabel>
+              <FormControl>
+                <Input placeholder="1000" {...field} />
+              </FormControl>
+              <FormDescription>Duration between each step increase when playing.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Separator />
         <FormField
           control={form.control}

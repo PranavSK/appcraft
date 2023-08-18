@@ -1,7 +1,7 @@
 import * as z from 'zod';
 
 export const schema = z.object({
-  variant: z.enum(['default', 'success', 'error']),
+  variant: z.enum(['default', 'success', 'error', 'disabled']),
   checked: z.boolean(),
   text: z.string().optional(),
   onCheckedChange: z.string().optional(),

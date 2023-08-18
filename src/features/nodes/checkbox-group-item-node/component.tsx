@@ -21,6 +21,7 @@ const containerVariants = cva(
         default: '',
         success: 'data-[state=checked]:border-[#6CA621] data-[state=checked]:text-[#6CA621]',
         error: 'data-[state=checked]:border-[#CC6666] data-[state=checked]:text-[#CC6666]',
+        disabled: '',
       },
     },
     defaultVariants: {
@@ -37,6 +38,7 @@ const innerContainerVariants = cva(
         default: 'group-data-[state=checked]:bg-[#C7C7C7]',
         success: 'group-data-[state=checked]:bg-[#F0FFF4]',
         error: 'group-data-[state=checked]:bg-[#FFF2F2]',
+        disabled: 'group-data-[state=checked]:bg-[#C7C7C7]',
       },
     },
     defaultVariants: {
@@ -62,6 +64,7 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
       checked={checked}
       onCheckedChange={handleCheckedChange}
       className={containerVariants({ className, variant })}
+      disabled={variant === 'disabled'}
     >
       <div className={innerContainerVariants({ variant })}>
         <svg

@@ -53,6 +53,7 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
                   <SelectItem value="default">Default</SelectItem>
                   <SelectItem value="success">Success</SelectItem>
                   <SelectItem value="error">Error</SelectItem>
+                  <SelectItem value="disabled">Disabled</SelectItem>
                 </SelectContent>
               </Select>
               <FormDescription>Variant of the select.</FormDescription>
