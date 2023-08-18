@@ -13,7 +13,7 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
 
   return (
     <Widget className={className} asChild {...state}>
-      <Geogebra ref={ggbRef} id={id} materialId={materialId} />
+      <Geogebra className="-z-10" ref={ggbRef} id={id} materialId={materialId} />
     </Widget>
   );
 };

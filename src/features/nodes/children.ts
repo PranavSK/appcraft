@@ -10,12 +10,13 @@ export const getNodeChildrenTypes = (type: string) => {
   if (type === 'grid')
     return [
       'paragraph',
-      'slider',
       'geogebra',
       'rect',
+      'slider',
+      'animated-slider',
+      'stepper',
       'radio-group',
       'checkbox-group',
-      'animated-slider',
     ];
   if (type === 'footer') return ['cta'];
   if (type === 'behaviors') return ['group', 'selector'];

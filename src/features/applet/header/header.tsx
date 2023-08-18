@@ -1,7 +1,5 @@
-import { useAtomValue } from 'jotai';
-import { selectAtom } from 'jotai/utils';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { FC, useCallback } from 'react';
+import { type FC } from 'react';
 
 import { ChildrenNode } from '#/features/nodes/common/components';
 import { Button } from '#/features/ui/button';
@@ -11,23 +9,18 @@ import { useContainerResponsive } from '#/hooks/use-container-responsive';
 import { compareBreakpoints } from '#/lib/breakpoint';
 import { cn } from '#/lib/utils';
 
-import { appletLayoutAtom } from '../applet.store';
+import { useHasChildren } from '../applet.store';
 
 export const Header: FC = () => {
   const [open, { toggle }] = useBoolean(true);
   const { ref, breakpoint } = useContainerResponsive();
-  const hasChildren = useAtomValue(
-    selectAtom(
-      appletLayoutAtom,
-      useCallback((layout) => layout.header.children.length > 0, []),
-    ),
-  );
+  const hasChildren = useHasChildren('header');
   if (!hasChildren) return null;
   return (
     <Collapsible
       className={cn(
         'relative mx-auto mb-3 flex min-h-[1.5rem] w-full flex-col items-center',
-        'justify-center space-y-1.5 bg-[#f6f6f6] px-6 pb-5 pt-3',
+        'z-20 justify-center space-y-1.5 bg-[#f6f6f6] px-6 pb-5 pt-3',
         'before:absolute before:left-0 before:top-full before:block before:h-3 before:w-3',
         'before:bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))]',
         'before:from-transparent before:from-70% before:to-[#f6f6f6] before:to-70%',

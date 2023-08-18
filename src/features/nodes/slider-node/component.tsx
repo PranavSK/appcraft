@@ -67,7 +67,7 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
       >
         <ChildrenNode id={id} slot="slider-mark" />
       </Slider>
-      <ChildrenNode id={id} slot="slider-label" />
+      <ChildrenNode id={id} slot="label" />
     </Widget>
   );
 };

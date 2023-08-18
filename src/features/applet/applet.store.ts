@@ -1,5 +1,6 @@
-import { atom, createStore, getDefaultStore, useStore } from 'jotai';
-import { atomWithReset, RESET } from 'jotai/utils';
+import { atom, createStore, getDefaultStore, useAtomValue, useStore } from 'jotai';
+import { atomWithReset, RESET, selectAtom } from 'jotai/utils';
+import { useCallback } from 'react';
 import { fromPairs, keys, omit, setPath, values } from 'remeda';
 
 import { getValidGeogebraApi } from '#/features/integrations/geogebra';
@@ -20,6 +21,22 @@ export const appletLayoutAtom = atomWithHistory<
     ['behaviors', { type: 'behaviors', children: [], groups: [] }],
   ]),
 );
+
+export function useHasChildren(id: string, type?: string) {
+  return useAtomValue(
+    selectAtom(
+      appletLayoutAtom,
+      useCallback(
+        (layout) => {
+          if (type)
+            return layout[id].children.filter((child) => layout[child].type === type).length > 0;
+          return layout[id].children.length > 0;
+        },
+        [id, type],
+      ),
+    ),
+  );
+}
 
 const storeMap = atomWithReset<WithResponsive<ReturnType<typeof createStore>>>({
   DEFAULT: createStore(),

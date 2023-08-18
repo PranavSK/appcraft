@@ -1,8 +1,6 @@
 import * as z from 'zod';
 
 import { gridSchema } from '#/features/nodes/common/data';
-
-export const childrenTypes = ['label', 'slider-mark'] as const;
 export const schema = gridSchema
   .extend({
     value: z.coerce.number(),
@@ -10,7 +8,6 @@ export const schema = gridSchema
     max: z.coerce.number(),
     step: z.coerce.number(),
     onValueChange: z.string().optional(),
-    onValueCommit: z.string().optional(),
   })
   .superRefine((data, ctx) => {
     if (data.min > data.max) {
@@ -49,14 +46,15 @@ export const schema = gridSchema
       });
     }
   });
-export type SliderState = z.infer<typeof schema>;
-export const defaultState: SliderState = {
+export type StepperState = z.infer<typeof schema>;
+export const defaultState: StepperState = {
   value: 0,
   min: 0,
-  max: 1,
-  step: 0.1,
-  rowStart: 5,
+  max: 10,
+  step: 1,
+  rowStart: 4,
   rowEnd: 6,
-  columnStart: 1,
+  columnStart: 2,
   columnEnd: 5,
 };
+export const childrenTypes = ['label'] as const;
