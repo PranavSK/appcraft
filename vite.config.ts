@@ -15,13 +15,26 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
-        importScripts: ['https://www.geogebra.org/apps/latest/web3d/sworker-locked.js'],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/s3-whjr-prod-cocos-applet.whjr.online\/app-craft/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'app-craft',
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+              },
+              cacheableResponse: {
+                statuses: [200],
+              },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/www.geogebra.org\/apps/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'geogebra',
               expiration: {
                 maxEntries: 100,
                 maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
