@@ -1,18 +1,17 @@
 import * as z from 'zod';
 
-import { GeogebraAppApi } from '#/features/integrations/geogebra';
 import { gridSchema } from '#/features/nodes/common/data';
 
-export const childrenTypes = [] as const;
+export const childrenTypes = ['geogebra-listener'] as const;
 export const schema = gridSchema.extend({
   materialId: z.string(),
 });
 export interface GeogebraState extends z.infer<typeof schema> {
-  api?: GeogebraAppApi | null;
+  transparent: boolean;
 }
 export const defaultState: GeogebraState = {
   materialId: 'jusnnrwa',
-  api: null,
+  transparent: false,
   rowStart: 1,
   rowEnd: 5,
   columnStart: 0,

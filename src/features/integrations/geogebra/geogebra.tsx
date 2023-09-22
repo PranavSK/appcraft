@@ -6,13 +6,17 @@ import { useScript } from '#/hooks/use-script';
 import { cn } from '#/lib/utils';
 
 import { GeogebraAppApi } from './geogebra.app.types';
-import { geogebraApiAtomFamily } from './geogebra.store';
+import { geogebraApiAtomFamily, IdProvider } from './geogebra.store';
 import type { GeogebraProps, GeogebraRef } from './geogebra.types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const GGBApplet: any;
 
-function loadGeogebraApplet(materialId: string | undefined, elementId: string | undefined) {
+function loadGeogebraApplet(
+  materialId: string | undefined,
+  elementId: string | undefined,
+  transparentGraphics = false,
+) {
   return new Promise<GeogebraAppApi>((resolve) => {
     const ggbParams = {
       appName: 'classic',
@@ -20,8 +24,10 @@ function loadGeogebraApplet(materialId: string | undefined, elementId: string | 
       showToolBar: false,
       showAlgebraInput: false,
       showMenuBar: false,
+      showAnimationButton: false,
+      showFullscreenButton: false,
       scaleContainerClass: 'ggb-container',
-      transparentGraphics: true,
+      transparentGraphics,
       appletOnLoad: resolve,
     };
     const applet = new GGBApplet(ggbParams, true);
@@ -30,7 +36,10 @@ function loadGeogebraApplet(materialId: string | undefined, elementId: string | 
 }
 
 export const Geogebra = forwardRef<GeogebraRef, GeogebraProps>(
-  ({ id: propId, materialId, className, children, ...props }, forwardedRef) => {
+  (
+    { id: propId, materialId, transparentGraphics = false, className, children, ...props },
+    forwardedRef,
+  ) => {
     const scriptStatus = useScript('https://www.geogebra.org/apps/deployggb.js');
     const api = useRef<GeogebraAppApi | null>(null);
     const id = propId ?? materialId ?? 'geogebra';
@@ -40,7 +49,7 @@ export const Geogebra = forwardRef<GeogebraRef, GeogebraProps>(
 
     useEffect(() => {
       if (scriptStatus === 'ready') {
-        loadGeogebraApplet(materialId, id).then((applet) => {
+        loadGeogebraApplet(materialId, id, transparentGraphics).then((applet) => {
           api.current = applet;
           setApi(applet);
         });
@@ -53,7 +62,7 @@ export const Geogebra = forwardRef<GeogebraRef, GeogebraProps>(
           setApi(null);
         }
       };
-    }, [id, materialId, scriptStatus, setApi]);
+    }, [id, materialId, scriptStatus, setApi, transparentGraphics]);
 
     useOnUnmount(() => {
       geogebraApiAtomFamily.remove(id);
@@ -70,7 +79,7 @@ export const Geogebra = forwardRef<GeogebraRef, GeogebraProps>(
         {...props}
       >
         <div id={id ?? materialId} />
-        {children}
+        <IdProvider value={{ id }}>{children}</IdProvider>
       </div>
     );
   },
