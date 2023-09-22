@@ -93,6 +93,7 @@ export default {
           'minmax(var(--split-min-primary),var(--split-primary)) var(--split-separator) minmax(var(--split-min-secondary), 1fr);',
       },
       gridTemplateRows: {
+        applet: 'repeat(6, minmax(0, 6.5rem));',
         split:
           'minmax(var(--split-min-primary),var(--split-primary)) var(--split-separator) minmax(var(--split-min-secondary), 1fr);',
       },

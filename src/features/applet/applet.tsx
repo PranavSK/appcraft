@@ -138,7 +138,7 @@ export const Applet: FC<AppletProps> = ({
   return (
     <Card
       data-testid="applet"
-      className="box-border flex h-full flex-col border-[#f6f6f6] text-[#212121]"
+      className="box-border flex h-full flex-col justify-between border-[#f6f6f6] text-[#212121]"
       style={style}
       ref={ref}
     >

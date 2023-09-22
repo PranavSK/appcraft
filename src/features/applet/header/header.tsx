@@ -19,7 +19,7 @@ export const Header: FC = () => {
   return (
     <Collapsible
       className={cn(
-        'relative mx-auto mb-3 flex min-h-[1.5rem] w-full flex-col items-center',
+        'relative mx-auto mb-3 flex w-full flex-col items-center',
         'z-20 justify-center space-y-1.5 bg-[#f6f6f6] px-6 pb-5 pt-3',
         'before:absolute before:left-0 before:top-full before:block before:h-3 before:w-3',
         'before:bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))]',
