@@ -70,7 +70,9 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
               <FormControl>
                 <Input placeholder="value" {...field} />
               </FormControl>
-              <FormDescription>Enter the item value.</FormDescription>
+              <FormDescription>
+                Enter the item value. Each item&apos;s value needs to be unique.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
