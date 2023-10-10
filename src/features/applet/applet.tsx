@@ -116,7 +116,7 @@ export const Applet: FC<AppletProps> = ({
 
   const style = useMemo(
     () => ({
-      fontSize: `clamp(0.625rem,calc(0.625rem + (1.25 - 0.625) * ((${containerWidth}px - 20rem) / (96 - 20))),1.25rem)`,
+      fontSize: `clamp(0.625rem,calc(0.625rem + (1 - 0.625) * ((${containerWidth}px - 12rem) / (96 - 12))),1rem)`,
     }),
     [containerWidth],
   );
@@ -138,7 +138,7 @@ export const Applet: FC<AppletProps> = ({
   return (
     <Card
       data-testid="applet"
-      className="box-border flex h-full flex-col justify-between border-[#f6f6f6] text-[#212121]"
+      className="box-border flex min-h-full flex-col justify-between border-[#f6f6f6] text-[#212121]"
       style={style}
       ref={ref}
     >
