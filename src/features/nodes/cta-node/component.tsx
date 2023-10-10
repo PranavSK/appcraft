@@ -26,13 +26,14 @@ const Icon = ({ icon }: { icon: CtaState['icon'] }) => {
 };
 
 export const Component: FC<NodeProps> = ({ id, className }) => {
-  const { icon, label, onClick, variant } = useAtomValue(nodeStateAtomFamily(id));
+  const { icon, label, disabled, onClick, variant } = useAtomValue(nodeStateAtomFamily(id));
   const onClickImpl = useAppletStoreBoundFunction(onClick ?? '');
   return (
     <Button
       variant={variant}
       className={cn(className, 'group h-10 border-primary text-xl')}
       onClick={onClickImpl}
+      disabled={disabled}
     >
       <Icon icon={icon} />
       {label}

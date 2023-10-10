@@ -6,6 +6,7 @@ import { merge } from 'remeda';
 
 import { AboutCode } from '#/features/nodes/common/components';
 import { Button } from '#/features/ui/button';
+import { Checkbox } from '#/features/ui/checkbox';
 import {
   Form,
   FormControl,
@@ -96,6 +97,22 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
               <Input {...field} />
               <FormDescription>Enter the button label</FormDescription>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="disabled"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4">
+              <FormControl>
+                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel>Disabled</FormLabel>
+                <FormDescription>Check to make the button disabled.</FormDescription>
+                <FormMessage />
+              </div>
             </FormItem>
           )}
         />
