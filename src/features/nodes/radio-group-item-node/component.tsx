@@ -47,7 +47,7 @@ const innerContainerVariants = cva(
 );
 
 export const Component: FC<NodeProps> = ({ id, className }) => {
-  const { value, variant, text } = useAtomValue(nodeStateAtomFamily(id));
+  const { value, variant, text, showIcon } = useAtomValue(nodeStateAtomFamily(id));
   return (
     <Item
       value={value}
@@ -55,21 +55,23 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
       className={containerVariants({ className, variant })}
     >
       <div className={innerContainerVariants({ variant })}>
-        <svg
-          className="h-5 w-5"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <Indicator asChild>
-            <circle cx="12" cy="12" r="6" fill="currentColor" />
-          </Indicator>
-        </svg>
+        {showIcon && (
+          <svg
+            className="h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <Indicator asChild>
+              <circle cx="12" cy="12" r="6" fill="currentColor" />
+            </Indicator>
+          </svg>
+        )}
         {text && <Text className="text-xl" text={text} />}
       </div>
     </Item>

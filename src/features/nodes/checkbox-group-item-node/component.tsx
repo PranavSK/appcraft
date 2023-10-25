@@ -48,7 +48,9 @@ const innerContainerVariants = cva(
 );
 
 export const Component: FC<NodeProps> = ({ id, className }) => {
-  const [{ variant, checked, text, onCheckedChange }, setState] = useAtom(nodeStateAtomFamily(id));
+  const [{ variant, checked, text, showIcon, onCheckedChange }, setState] = useAtom(
+    nodeStateAtomFamily(id),
+  );
 
   const onCheckedChangeImpl = useAppletStoreBoundFunction('checked', onCheckedChange ?? '');
   const handleCheckedChange = useCallback(
@@ -67,21 +69,23 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
       disabled={variant === 'disabled'}
     >
       <div className={innerContainerVariants({ variant })}>
-        <svg
-          className="h-5 w-5"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <rect width="18" height="18" x="3" y="3" rx="2" />
-          <Indicator asChild>
-            <rect width="10" height="10" x="7" y="7" rx="2" fill="currentColor" />
-          </Indicator>
-        </svg>
+        {showIcon && (
+          <svg
+            className="h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <rect width="18" height="18" x="3" y="3" rx="2" />
+            <Indicator asChild>
+              <rect width="10" height="10" x="7" y="7" rx="2" fill="currentColor" />
+            </Indicator>
+          </svg>
+        )}
         {text && <Text className="text-xl" text={text} />}
       </div>
     </Root>
