@@ -1,5 +1,5 @@
 import * as SliderPrimitive from '@radix-ui/react-slider';
-import { type ElementRef, forwardRef, useCallback, useState } from 'react';
+import { type ElementRef, forwardRef, useCallback, useEffect, useState } from 'react';
 
 import { useElementSize } from '#/hooks/use-element-size';
 
@@ -31,6 +31,12 @@ export const Slider = forwardRef<ElementRef<typeof SliderPrimitive.Root>, Slider
       },
       [onValueCommit],
     );
+
+    useEffect(() => {
+      if (value != null) {
+        setLocalValue(value);
+      }
+    }, [value]);
 
     return (
       <SliderPrimitive.Root
