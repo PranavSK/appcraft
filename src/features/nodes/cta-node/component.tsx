@@ -1,33 +1,20 @@
 import { useAtomValue } from 'jotai';
-import { RotateCcw, Shuffle, Wand2 } from 'lucide-react';
 import { type FC } from 'react';
 
 import { useAppletStoreBoundFunction } from '#/features/applet/applet.store';
+import { icons } from '#/features/cta-icons';
 import { Button } from '#/features/ui/button';
 import { cn } from '#/lib/utils';
 
 import type { NodeProps } from '../node.types';
-import { CtaState } from './data';
 import { nodeStateAtomFamily } from './store';
-
-const iconClassNames = 'w-4 h-4 mr-2';
-
-const Icon = ({ icon }: { icon: CtaState['icon'] }) => {
-  switch (icon) {
-    case 'start':
-      return <Wand2 className={iconClassNames} />;
-    case 'retry':
-      return <RotateCcw className={iconClassNames} />;
-    case 'try-new':
-      return <Shuffle className={iconClassNames} />;
-    default:
-      return null;
-  }
-};
 
 export const Component: FC<NodeProps> = ({ id, className }) => {
   const { icon, label, disabled, onClick, variant } = useAtomValue(nodeStateAtomFamily(id));
   const onClickImpl = useAppletStoreBoundFunction(onClick ?? '');
+
+  const Icon = icons[icon];
+
   return (
     <Button
       variant={variant}
@@ -35,7 +22,7 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
       onClick={onClickImpl}
       disabled={disabled}
     >
-      <Icon icon={icon} />
+      {Icon && <Icon className="mr-2 h-4 w-4" />}
       {label}
     </Button>
   );

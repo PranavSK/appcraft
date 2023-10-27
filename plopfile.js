@@ -36,4 +36,22 @@ export default function (/** @type {import('plop').NodePlopAPI} */ plop) {
       },
     ],
   });
+
+  plop.setGenerator('icon', {
+    description: 'SVG Icon Component Scaffolding',
+    prompts: [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is the icon name?',
+      },
+    ],
+    actions: [
+      {
+        type: 'add',
+        path: 'src/features/cta-icons/{{kebabCase name}}.tsx',
+        templateFile: '.templates/cta-icon/icon.hbs',
+      },
+    ],
+  });
 }

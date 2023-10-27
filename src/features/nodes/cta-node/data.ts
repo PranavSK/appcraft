@@ -1,6 +1,9 @@
+import { keys } from 'remeda';
 import * as z from 'zod';
 
-export const iconTypes = ['none', 'start', 'retry', 'try-new'] as const;
+import { icons } from '#/features/cta-icons';
+
+export const iconTypes = ['none', ...keys(icons)] as const;
 
 export const schema = z.object({
   variant: z.enum(['default', 'outline']),
