@@ -73,7 +73,7 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
   return (
     <Widget className={cn('flex flex-col items-center justify-center gap-3', className)} {...state}>
       {hasLabelChildren && <ChildrenNode id={id} slot="label" />}
-      <div className="flex min-w-[12.5rem] items-center justify-between gap-[0.625rem] rounded-md border border-[#1a1a1a]">
+      <div className="flex items-center justify-between gap-[0.625rem] self-stretch rounded-md border border-[#1a1a1a]">
         <Button onClick={handleSubtract}>
           <Minus />
         </Button>
