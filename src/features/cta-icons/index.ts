@@ -1,5 +1,5 @@
 import type { FC, SVGAttributes } from 'react';
-import { mapKeys, pipe } from 'remeda';
+import { keys, mapKeys, pipe } from 'remeda';
 
 export const icons = pipe(
   import.meta.glob<FC<SVGAttributes<SVGElement>>>('./**.tsx', {
@@ -9,3 +9,5 @@ export const icons = pipe(
 
   mapKeys((key) => key.replace('./', '').replace('.tsx', '')),
 );
+
+export const iconTypes = ['none', ...keys(icons)] as const;

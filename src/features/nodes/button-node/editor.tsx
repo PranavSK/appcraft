@@ -29,12 +29,12 @@ import { Separator } from '#/features/ui/separator';
 import { Textarea } from '#/features/ui/textarea';
 
 import { NodePropertyEditorProps } from '../node.types';
-import { type CtaState, defaultState, schema } from './data';
+import { type ButtonState, defaultState, schema } from './data';
 import { nodeStateAtomFamily } from './store';
 
 export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
   const [state, setState] = useAtom(nodeStateAtomFamily(id));
-  const form = useForm<CtaState>({
+  const form = useForm<ButtonState>({
     resolver: zodResolver(schema),
     values: merge(defaultState, state),
   });
@@ -42,28 +42,6 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(setState)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="variant"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Variant</FormLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger className="bg-background">
-                    <SelectValue placeholder="Select variant" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="default">Default</SelectItem>
-                  <SelectItem value="outline">Outline</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormDescription>Select the button variant</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="icon"
