@@ -18,9 +18,7 @@ const Dialog = Root;
 
 const DialogTrigger = Trigger;
 
-const DialogPortal = ({ className, ...props }: DialogPortalProps) => (
-  <Portal className={cn(className)} {...props} />
-);
+const DialogPortal = (props: DialogPortalProps) => <Portal {...props} />;
 DialogPortal.displayName = Portal.displayName;
 
 const DialogOverlay = forwardRef<

@@ -9,7 +9,7 @@ const meta: Meta<typeof Split> = {
 export default meta;
 type Story = StoryObj<typeof Split>;
 
-export const WithBar = {
+export const Sample = {
   args: {
     className: 'h-80',
     orientation: 'horizontal',

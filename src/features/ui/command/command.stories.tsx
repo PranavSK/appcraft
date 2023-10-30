@@ -18,7 +18,7 @@ const meta: Meta<typeof Command> = {
 export default meta;
 type Story = StoryObj<typeof Command>;
 
-export const WithBar = {
+export const Demo = {
   render: () => (
     <Command className="rounded-lg border shadow-md">
       <CommandInput placeholder="Type a command or search..." />

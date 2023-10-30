@@ -117,6 +117,7 @@ export function storeToObject() {
 function cleanup() {
   const stores = values(getDefaultStore().get(storeMap));
   for (const store of stores) {
+    if (store == null) continue;
     const layout = store.get(appletLayoutAtom);
     for (const [id, { type }] of Object.entries(layout)) {
       if (type === 'header' || type === 'footer' || type === 'grid' || type === 'behaviors')

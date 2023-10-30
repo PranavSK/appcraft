@@ -16,7 +16,7 @@ export function useInterval(
   options: { immediate?: boolean } = {},
 ) {
   const timerCallback = useMemoizedCallback(callback);
-  const timerRef = useRef<NodeJS.Timer | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const clear = useCallback(() => {
     if (timerRef.current) {

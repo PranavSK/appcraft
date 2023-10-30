@@ -1,4 +1,4 @@
-import { ResizeObserver as Polyfill, ResizeObserverEntry } from '@juggle/resize-observer';
+import { ResizeObserver as Polyfill, type ResizeObserverEntry } from '@juggle/resize-observer';
 import { RefCallback, useCallback, useRef } from 'react';
 import { noop } from 'remeda';
 
@@ -9,7 +9,7 @@ const ResizeObserver =
   typeof window !== 'undefined' && 'ResizeObserver' in window ? window.ResizeObserver : Polyfill;
 
 interface UseResizeObserverCallback {
-  (entry: ResizeObserverEntry, observer: Polyfill): void;
+  (entry: ResizeObserverEntry, observer: ResizeObserver): void;
 }
 
 export function useResizeObserver<T extends HTMLElement>(callback: UseResizeObserverCallback) {
@@ -23,7 +23,7 @@ export function useResizeObserver<T extends HTMLElement>(callback: UseResizeObse
     const targetEl = target.current;
     if (!targetEl) return noop;
 
-    function cb(entry: ResizeObserverEntry, observer: Polyfill) {
+    function cb(entry: ResizeObserverEntry, observer: ResizeObserver) {
       if (didUnsubscribe) return;
       storedCallback(entry, observer);
     }
@@ -50,7 +50,7 @@ function createResizeObserver() {
 
   const callbacks: Map<Element, Array<UseResizeObserverCallback>> = new Map();
 
-  const observer = new ResizeObserver((entries: ResizeObserverEntry[], obs: Polyfill) => {
+  const observer = new ResizeObserver((entries: ResizeObserverEntry[], obs: ResizeObserver) => {
     allEntries = allEntries.concat(entries);
     if (!ticking) {
       window.requestAnimationFrame(() => {

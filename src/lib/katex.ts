@@ -14,9 +14,6 @@ export const zodValidateLatex: SuperRefinement<string> = (val, ctx) => {
         code: ZodIssueCode.custom,
         message: `Invalid LaTeX at ${err.position}: ${err.message}`,
       });
-      return false;
     }
   }
-
-  return true;
 };

@@ -31,7 +31,7 @@ const notifications = [
   },
 ];
 
-export const Default = {
+export const Sample = {
   args: {
     className: 'w-[380px]',
     children: (

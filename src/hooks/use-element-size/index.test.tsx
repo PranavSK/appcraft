@@ -1,5 +1,4 @@
 import { act, render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { useElementSize } from './index';
 
@@ -33,7 +32,7 @@ describe('useElementSize', () => {
 
     render(<SampleDiv />);
     const sampleDiv = screen.getByTestId('sample');
-    expect(sampleDiv).toHaveTextContent('Size: undefined x undefined');
+    expect(sampleDiv).toHaveTextContent('Size: 0 x 0');
 
     act(() => callback([{ contentRect: { width: 100, height: 200 } }]));
     expect(sampleDiv).toHaveTextContent('Size: 100 x 200');
