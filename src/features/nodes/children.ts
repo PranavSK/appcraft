@@ -19,6 +19,7 @@ export const getNodeChildrenTypes = (type: string) => {
       'radio-group',
       'checkbox-group',
       'button-group',
+      'table',
     ];
   if (type === 'footer') return ['cta'];
   if (type === 'behaviors') return ['group', 'selector'];
