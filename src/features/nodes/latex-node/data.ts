@@ -1,9 +1,9 @@
 import * as z from 'zod';
 
-import { zodValidateLatex } from '#/lib/katex';
+import { getZodValidateLatex } from '#/lib/katex';
 
 export const latexSchema = z.object({
-  latex: z.string().superRefine(zodValidateLatex),
+  latex: z.string().superRefine(getZodValidateLatex(false)),
 });
 export type LatexState = z.infer<typeof latexSchema>;
 export const childrenTypes = [] as const;

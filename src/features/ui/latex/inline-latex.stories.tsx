@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Latex } from './latex';
+import { InlineLatex } from './latex';
 
-const meta: Meta<typeof Latex> = {
-  component: Latex,
+const meta: Meta<typeof InlineLatex> = {
+  component: InlineLatex,
   decorators: [
     (Story) => (
       <p className="bg-gray-100 p-4">
@@ -14,18 +14,10 @@ const meta: Meta<typeof Latex> = {
   ],
 };
 export default meta;
-type Story = StoryObj<typeof Latex>;
+type Story = StoryObj<typeof InlineLatex>;
 
 export const Inline = {
   args: {
     latex: '\\sqrt{2}',
-    displayMode: false,
-  },
-} satisfies Story;
-
-export const Block = {
-  args: {
-    latex: '\\sqrt{2}',
-    displayMode: true,
   },
 } satisfies Story;
