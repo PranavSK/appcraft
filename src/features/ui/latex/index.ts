@@ -1,1 +1,1 @@
-export { Latex } from './latex';
+export { BlockLatex, InlineLatex } from './latex';

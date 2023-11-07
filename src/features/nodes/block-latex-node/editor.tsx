@@ -4,6 +4,7 @@ import { type FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { merge } from 'remeda';
 
+import { EditGridFields } from '#/features/nodes/common/components';
 import { Button } from '#/features/ui/button';
 import {
   Form,
@@ -14,16 +15,17 @@ import {
   FormLabel,
   FormMessage,
 } from '#/features/ui/form';
-import { Input } from '#/features/ui/input';
+import { Separator } from '#/features/ui/separator';
+import { Textarea } from '#/features/ui/textarea';
 
 import { NodePropertyEditorProps } from '../node.types';
-import { defaultState, latexSchema, type LatexState } from './data';
+import { type BlockLatexState, defaultState, schema } from './data';
 import { nodeStateAtomFamily } from './store';
 
 export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
   const [state, setState] = useAtom(nodeStateAtomFamily(id));
-  const form = useForm<LatexState>({
-    resolver: zodResolver(latexSchema),
+  const form = useForm<BlockLatexState>({
+    resolver: zodResolver(schema),
     values: merge(defaultState, state),
   });
 
@@ -37,7 +39,7 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
             <FormItem>
               <FormLabel>Latex</FormLabel>
               <FormControl>
-                <Input placeholder="\\Latex" {...field} />
+                <Textarea className="font-mono" placeholder="Enter \\Latex" {...field} />
               </FormControl>
               <FormDescription>
                 Enter LaTex expression. See{' '}
@@ -50,6 +52,8 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
             </FormItem>
           )}
         />
+        <Separator />
+        <EditGridFields control={form.control} />
         <Button type="submit">Submit</Button>
       </form>
     </Form>

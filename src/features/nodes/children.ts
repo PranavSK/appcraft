@@ -10,6 +10,7 @@ export const getNodeChildrenTypes = (type: string) => {
   if (type === 'grid')
     return [
       'paragraph',
+      'block-latex',
       'geogebra',
       'rect',
       'slider',
