@@ -2,9 +2,8 @@ import { atom, useAtomValue } from 'jotai';
 import { selectAtom } from 'jotai/utils';
 import { type FC, useCallback, useMemo } from 'react';
 import type { Control, FieldValues, Path } from 'react-hook-form';
-import { filter } from 'remeda';
 
-import { appletLayoutAtom } from '#/features/applet/applet.store';
+import { appletLayoutAtom, useFilteredChildren } from '#/features/applet/applet.store';
 import { selectedNodeAtom } from '#/features/editor/editor.store';
 import {
   FormControl,
@@ -46,7 +45,7 @@ function useNode(id: string) {
   return useAtomValue(mappedAtom);
 }
 
-const ChildNode: FC<{ id: string }> = ({ id }) => {
+const NodeComponentRenderer: FC<{ id: string }> = ({ id }) => {
   const isSelected = useAtomValue(
     selectAtom(
       selectedNodeAtom,
@@ -66,29 +65,16 @@ const ChildNode: FC<{ id: string }> = ({ id }) => {
   );
 };
 
-function useSlotChildren(id: string, slot?: string) {
-  const selectedAtom = selectAtom(
-    appletLayoutAtom,
-    useCallback(
-      (state) => {
-        const children = state[id].children;
-        if (slot == null) return children;
-        return filter(children, (child) => state[child].type === slot);
-      },
-      [id, slot],
-    ),
-  );
-
-  return useAtomValue(selectedAtom);
-}
-
-export const ChildrenNode: FC<{ id: string; slot?: string }> = ({ id, slot }) => {
-  const children = useSlotChildren(id, slot);
+export const ChildrenNode: FC<{ id: string; filterType?: string | number | number[] }> = ({
+  id,
+  filterType,
+}) => {
+  const children = useFilteredChildren(id, filterType);
 
   return (
     <>
       {children.map((child) => (
-        <ChildNode key={child} id={child} />
+        <NodeComponentRenderer key={child} id={child} />
       ))}
     </>
   );

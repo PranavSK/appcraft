@@ -65,9 +65,9 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
         onValueChange={handleValueChange}
         onValueCommit={handleValueCommit}
       >
-        <ChildrenNode id={id} slot="slider-mark" />
+        <ChildrenNode id={id} filterType="slider-mark" />
       </Slider>
-      <ChildrenNode id={id} slot="label" />
+      <ChildrenNode id={id} filterType="label" />
     </Widget>
   );
 };

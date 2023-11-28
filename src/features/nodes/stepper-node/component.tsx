@@ -2,7 +2,7 @@ import { useAtom } from 'jotai';
 import { type FC, PropsWithChildren, useCallback, useMemo } from 'react';
 import { clamp } from 'remeda';
 
-import { useAppletStoreBoundFunction, useHasChildren } from '#/features/applet/applet.store';
+import { useAppletStoreBoundFunction } from '#/features/applet/applet.store';
 import { Text } from '#/features/ui/text';
 import { Widget } from '#/features/ui/widget';
 import { cn } from '#/lib/utils';
@@ -42,7 +42,6 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
   const [{ value, min, max, step, onValueChange, ...state }, setState] = useAtom(
     nodeStateAtomFamily(id),
   );
-  const hasLabelChildren = useHasChildren(id, 'label');
   const onValueChangeImpl = useAppletStoreBoundFunction('value', onValueChange ?? '');
 
   const stepPrecision = useMemo(() => step.toString().split('.')[1]?.length ?? 0, [step]);
@@ -72,7 +71,7 @@ export const Component: FC<NodeProps> = ({ id, className }) => {
 
   return (
     <Widget className={cn('flex flex-col items-center justify-center gap-3', className)} {...state}>
-      {hasLabelChildren && <ChildrenNode id={id} slot="label" />}
+      <ChildrenNode id={id} filterType="label" />
       <div className="flex items-center justify-between gap-[0.625rem] self-stretch rounded-md border border-[#1a1a1a]">
         <Button onClick={handleSubtract}>
           <Minus />

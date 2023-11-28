@@ -26,8 +26,8 @@ export const schema = gridSchema
         type: 'number',
         code: z.ZodIssueCode.too_small,
         minimum: 0,
-        inclusive: false,
-        exact: true,
+        inclusive: true,
+        exact: false,
         message: 'Step must be greater than 0',
         path: ['step'],
       });

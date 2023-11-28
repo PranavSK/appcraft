@@ -1,7 +1,7 @@
 import { atom, createStore, getDefaultStore, useAtomValue, useStore } from 'jotai';
 import { atomWithReset, RESET, selectAtom } from 'jotai/utils';
 import { useCallback } from 'react';
-import { fromPairs, keys, omit, setPath, values } from 'remeda';
+import { filter, fromPairs, keys, omit, setPath, values } from 'remeda';
 
 import { getValidGeogebraApi } from '#/features/integrations/geogebra';
 import { useMemoizedCallback } from '#/hooks/use-memoized-callback';
@@ -36,6 +36,62 @@ export function useHasChildren(id: string, type?: string) {
       ),
     ),
   );
+}
+
+export function useFilteredChildren(id: string, filterType?: string | number | number[]) {
+  const selectedAtom = selectAtom(
+    appletLayoutAtom,
+    useCallback(
+      (state) => {
+        const children = state[id].children;
+        if (typeof filterType === 'string')
+          return filter(children, (child) => state[child].type === filterType);
+        if (typeof filterType === 'number')
+          return filterType < children.length ? [children[filterType]] : [];
+        if (Array.isArray(filterType))
+          return filter(
+            filterType.map((index) => children[index]),
+            Boolean,
+          );
+        return children;
+      },
+      [id, filterType],
+    ),
+  );
+
+  return useAtomValue(selectedAtom);
+}
+
+export function useParent(id: string) {
+  const selectedAtom = selectAtom(
+    appletLayoutAtom,
+    useCallback(
+      (state) => {
+        const parent = keys(state).find((key) => state[key].children.includes(id));
+        if (parent == null) throw new Error(`Node ${id} has no parent`);
+        return parent;
+      },
+      [id],
+    ),
+  );
+
+  return useAtomValue(selectedAtom);
+}
+
+export function useSiblingIndex(id: string) {
+  const parent = useParent(id);
+  const selectedAtom = selectAtom(
+    appletLayoutAtom,
+    useCallback(
+      (state) => {
+        const parentChildren = state[parent].children;
+        return parentChildren.findIndex((child) => child === id);
+      },
+      [id, parent],
+    ),
+  );
+
+  return useAtomValue(selectedAtom);
 }
 
 const storeMap = atomWithReset<WithResponsive<ReturnType<typeof createStore>>>({

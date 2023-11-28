@@ -69,53 +69,21 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
         />
         <FormField
           control={form.control}
-          name="showBorder"
+          name="showHeader"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4">
+            <FormItem>
               <FormControl>
                 <Checkbox checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
               <div className="space-y-1 leading-none">
-                <FormLabel>Show Border</FormLabel>
-                <FormDescription>Check to show table border.</FormDescription>
+                <FormLabel>Show Header</FormLabel>
+                <FormDescription>Check to make the 1st row a header.</FormDescription>
                 <FormMessage />
               </div>
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="showGrid"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4">
-              <FormControl>
-                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-              </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel>Show Grid</FormLabel>
-                <FormDescription>Check to show grid lines.</FormDescription>
-                <FormMessage />
-              </div>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="showHeaderBackground"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4">
-              <FormControl>
-                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-              </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel>Show Header Background</FormLabel>
-                <FormDescription>Check to show background for the header row.</FormDescription>
-                <FormMessage />
-              </div>
-            </FormItem>
-          )}
-        />
-        {form.watch('showHeaderBackground') && (
+        {form.watch('showHeader') && (
           <FormField
             control={form.control}
             name="headerColor"
@@ -125,7 +93,7 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
                 <FormControl>
                   <Input type="color" {...field} />
                 </FormControl>
-                <FormDescription>Enter the header background color.</FormDescription>
+                <FormDescription>Enter the header color.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -133,30 +101,63 @@ export const PropertyEditor: FC<NodePropertyEditorProps> = ({ id }) => {
         )}
         <FormField
           control={form.control}
-          name="rowHighlightIndex"
+          name="highlightColor"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Row Highlight Index</FormLabel>
-              <Select value={field.value.toString()} onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger className="bg-background">
-                    <SelectValue placeholder="Select Row Index" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="none">None</SelectItem>
-                  {Array.from({ length: form.watch('rows') }).map((_, i) => (
-                    <SelectItem key={i} value={i.toString()}>
-                      {i}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormDescription>Select which row to highlight.</FormDescription>
+              <FormLabel>Highlight Color</FormLabel>
+              <FormControl>
+                <Input type="color" {...field} />
+              </FormControl>
+              <FormDescription>Enter the highlight color.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="highlightType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Highlight Type</FormLabel>
+              <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger className="bg-background">
+                      <SelectValue placeholder="Select Highlight Type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="none">None</SelectItem>
+                    <SelectItem value="row">Row</SelectItem>
+                    <SelectItem value="column">Column</SelectItem>
+                    <SelectItem value="cell">Cell</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormDescription>Enter the highlight type.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {form.watch('highlightType') !== 'none' && (
+          <FormField
+            control={form.control}
+            name="highlightIndex"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Highlight Index</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} />
+                </FormControl>
+                <FormDescription>
+                  Select which {form.watch('highlightType')} to highlight.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+
         <EditGridFields control={form.control} />
         <Button type="submit">Submit</Button>
       </form>
