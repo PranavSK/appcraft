@@ -2,6 +2,10 @@ export function approxeq(v1: number, v2: number, epsilon = 0.001) {
   return Math.abs(v1 - v2) <= epsilon;
 }
 
+export function clampValue(val: number, min: number, max: number) {
+  return Math.max(min, Math.min(val, max));
+}
+
 export function getProgress(value: number, min: number, max: number) {
   return Math.max(value - min, 0) / (max - min);
 }
@@ -14,6 +18,54 @@ export function getValueFromProgress(ratio: number, min: number, max: number) {
 export function getShiftedProgress(value: number, min: number, max: number) {
   const progress = getProgress(value, min, max);
   return progress * 2 - 1;
+}
+
+export function lerp(a: number, b: number, alpha: number) {
+  return a + alpha * (b - a);
+}
+
+export function degToRad(degrees: number) {
+  return degrees * (Math.PI / 180);
+}
+export function radToDeg(radians: number) {
+  return radians * (180 / Math.PI);
+}
+
+export function clampPrecision(n: string, p: number) {
+  const [, d] = n.split('.');
+  if (d && d.length > p) return parseFloat(n).toFixed(p);
+  return n;
+}
+
+export function mix(value1: number, weight1: number, value2: number, weight2: number) {
+  return (value1 * weight1 + value2 * weight2) / (weight1 + weight2);
+}
+
+export function getGreatestCommonDivisor(a: number, b: number): number {
+  return b ? getGreatestCommonDivisor(b, a % b) : a;
+}
+
+export function simplifyFraction(numerator: number, denominator: number): [number, number] {
+  const gcd = getGreatestCommonDivisor(numerator, denominator);
+  return [numerator / gcd, denominator / gcd];
+}
+
+export function sum(arr: number[], start = 0, end = arr.length) {
+  let total = 0;
+  for (let i = start; i < end; i++) {
+    total += arr[i];
+  }
+  return total;
+}
+
+export function cumsum(arr: number[]) {
+  const cumsum = new Array<number>(arr.length);
+  let total = 0;
+  for (let i = 0; i < arr.length; i++) {
+    total += arr[i];
+    cumsum[i] = total;
+  }
+  return cumsum;
 }
 
 /**
@@ -98,3 +150,19 @@ export function getPrimeFactors(n: number, includeOneAndSelf = false) {
 
   return factors.filter((i) => getFactors(i, false).length === 0);
 }
+
+export const expandedPrimeFactors = (n: number): number[] => {
+  const factors: number[] = [];
+  let divisor = 2;
+
+  while (n >= 2) {
+    if (n % divisor === 0) {
+      factors.push(divisor);
+      n = n / divisor;
+    } else {
+      divisor++;
+    }
+  }
+
+  return factors;
+};
