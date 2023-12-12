@@ -20,6 +20,7 @@ export const getNodeChildrenTypes = (type: string) => {
       'checkbox-group',
       'button-group',
       'table',
+      'weighing-scale',
     ];
   if (type === 'footer') return ['cta'];
   if (type === 'behaviors') return ['group', 'selector'];
