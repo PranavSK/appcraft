@@ -30,6 +30,7 @@ export const WeighingScale: FC<AnimatedWeighingScaleProps> = ({
   leftPanContent,
   rightPanLabel,
   rightPanContent,
+  className,
   ...props
 }) => {
   const targetAngle =
@@ -53,7 +54,7 @@ export const WeighingScale: FC<AnimatedWeighingScaleProps> = ({
 
   return (
     <Container
-      className={containerVariants({ checkStatus })}
+      className={containerVariants({ className, checkStatus })}
       data-testid="animated-weighing-scale"
       {...props}
     >
